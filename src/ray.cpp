@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "vector2Math.h"
+#include "vector2_math.h"
 #include "ray.h"
 #include "renderer.h"
 #include "boundary.h"

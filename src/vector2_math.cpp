@@ -1,5 +1,5 @@
 #include <cmath>
-#include "vector2Math.h"
+#include "vector2_math.h"
 
 void Vector2fNormalize(sf::Vector2f& vec2f)
 {
