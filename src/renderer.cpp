@@ -5,9 +5,9 @@
 #include "boundary.h"
 #include "particle.h"
 
-bool isDrawHitPoint = true;
+bool isDrawHitPoint = false;
 bool isDrawHitRay = true;
-bool isDrawToInfinity = false;
+bool isDrawToInfinity = true;
 
 boundary_t b_1 = CreateBoundary(300.0f, 100.0f, 300.0f, 300.0f);
 particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, 10);
@@ -17,7 +17,6 @@ void RenderWindow()
 	rWindow.clear();
 	ImGui::SFML::Render(rWindow);
 
-	DrawParticle(p_1);
 	ParticleSetPosition(p_1, sf::Vector2f(sf::Mouse::getPosition(rWindow)));
 	DrawParticleHits(p_1, {b_1});
 

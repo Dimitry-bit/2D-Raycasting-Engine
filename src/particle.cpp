@@ -99,6 +99,10 @@ void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>&
 			if (isDrawHitRay) {
 				DrawLine(ray.origin, closestPoint);
 			}
+		} else {
+			DrawRay(ray);
 		}
 	}
+
+	rWindow.draw(particle.originCircle);
 }
