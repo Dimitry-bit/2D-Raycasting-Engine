@@ -3,10 +3,8 @@
 #include "SFML/Window/Event.hpp"
 
 #include "renderer.h"
-#include "boundary.h"
 
 sf::RenderWindow rWindow(sf::VideoMode(640, 480), "HelloSFML");
-boundary_t b_1 = CreateBoundary(300, 100, 300, 300);
 
 void HandleEvent();
 
@@ -23,15 +21,6 @@ int main()
 	}
 
 	ImGui::SFML::Shutdown();
-}
-
-void RenderWindow()
-{
-	rWindow.clear();
-	ImGui::SFML::Render(rWindow);
-
-	DrawBoundary(b_1);
-	rWindow.display();
 }
 
 void HandleEvent()
