@@ -1,9 +1,9 @@
-#include <cmath>
-
 #include "vector2_math.h"
 #include "ray.h"
 #include "renderer.h"
 #include "boundary.h"
+
+const float rayDrawLength = 20.0f;
 
 ray_t CreateRay(float x1, float y1, float x2, float y2)
 {
@@ -81,9 +81,11 @@ bool RayCast(const ray_t& ray, const boundary_t& boundary, sf::Vector2f& point)
 
 void DrawRay(const ray_t& ray)
 {
+	float dirMultiplier = (!isDrawToInfinity) ? rayDrawLength : float(rWindow.getSize().x + rWindow.getSize().y);
+
 	sf::Vertex line[] = {
 		sf::Vertex(ray.origin),
-		sf::Vertex(ray.origin + (ray.direction * 50.0f))
+		sf::Vertex(ray.origin + (ray.direction * dirMultiplier)),
 	};
 
 	rWindow.draw(line, 2, sf::Lines);

@@ -7,10 +7,10 @@
 
 bool isDrawHitPoint = true;
 bool isDrawHitRay = true;
-bool isDrawToInfinity = true;
+bool isDrawToInfinity = false;
 
 boundary_t b_1 = CreateBoundary(300.0f, 100.0f, 300.0f, 300.0f);
-particle_t p_1 = CreateParticle(100.0f, 100.0f, 20.0f, 10);
+particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, 10);
 
 void RenderWindow()
 {
