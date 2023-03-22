@@ -18,7 +18,7 @@ ray_t CreateRay(float x1, float y1, float x2, float y2)
 	};
 }
 
-ray_t CreateRay(sf::Vector2f origin, sf::Vector2f direction)
+ray_t CreateRay(const sf::Vector2f& origin, sf::Vector2f direction)
 {
 	Vector2fNormalize(direction);
 	return ray_t{
@@ -36,7 +36,7 @@ ray_t CreateRay(float x1, float y1, float angleInDegree)
 	};
 }
 
-ray_t CreateRay(sf::Vector2f origin, float angleInDegree)
+ray_t CreateRay(const sf::Vector2f& origin, float angleInDegree)
 {
 	sf::Vector2f dir = Vector2fFromAngle(1.0f, angleInDegree);
 	return ray_t{
