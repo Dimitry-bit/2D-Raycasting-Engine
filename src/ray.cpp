@@ -1,11 +1,9 @@
 #include <cmath>
 
+#include "vector2Math.h"
 #include "ray.h"
 #include "renderer.h"
 #include "boundary.h"
-
-void Vector2fNormalize(sf::Vector2f& vec2f);
-sf::Vector2f Vector2fFromAngle(float len, float angleInDegree);
 
 ray_t CreateRay(float x1, float y1, float x2, float y2)
 {
@@ -89,24 +87,4 @@ void DrawRay(const ray_t& ray)
 	};
 
 	rWindow.draw(line, 2, sf::Lines);
-}
-
-void Vector2fNormalize(sf::Vector2f& vec2f)
-{
-	const float mag = sqrt((vec2f.x * vec2f.x) + (vec2f.y * vec2f.y));
-
-	if (mag <= 0)
-		return;
-
-	vec2f.x /= mag;
-	vec2f.y /= mag;
-}
-
-sf::Vector2f Vector2fFromAngle(float len, float angleInDegree)
-{
-	const double angleInRad = angleInDegree * std::numbers::pi / 180;
-	float x = len * cos(angleInRad);
-	float y = len * sin(angleInRad);
-
-	return sf::Vector2f{x, y};
 }
