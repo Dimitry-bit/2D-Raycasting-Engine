@@ -1,16 +1,16 @@
 #include <vector>
-#include <iostream>
 #include "imgui.h"
-#include "imgui-SFML.h"
 
 #include "editor.h"
 #include "renderer.h"
 
 static std::vector<editorwindow_t*> editors;
+static bool isDarkTheme = false;
 
 void EditorInit()
 {
 	EditorCreateAll();
+	EditorSwitchTheme(isDarkTheme);
 }
 
 editorwindow_t* EditorCreate(const char* name,
@@ -70,6 +70,13 @@ void DrawMenuBar(editorwindow_t& window)
 		ImGui::EndMenu();
 	}
 
+	if (ImGui::BeginMenu("Tools")) {
+		if (ImGui::Checkbox("Dark Theme", &isDarkTheme)) {
+			EditorSwitchTheme(isDarkTheme);
+		}
+		ImGui::EndMenu();
+	}
+
 	ImGui::EndMainMenuBar();
 }
 
@@ -80,16 +87,26 @@ void DrawRenderSettings(editorwindow_t& window)
 		return;
 	}
 
+	ImGui::SeparatorText("Draw Options");
 	ImGui::Checkbox("Draw Hit Ray", &isDrawHitRay);
 	ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint);
 	ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity);
 	ImGui::Checkbox("Particle Follow Cursor", &isFollowMouse);
+	ImGui::DragInt("Step Angle", &particleStepAngle, 1, 1, 360, "%d deg");
 
+	ImGui::SeparatorText("Color Options");
 	ImGuiSFMLColorEdit4("BG Color", bgColor, ImGuiColorEditFlags_AlphaPreview);
 	ImGuiSFMLColorEdit4("Particle Color", particleColor, ImGuiColorEditFlags_AlphaPreview);
 	ImGuiSFMLColorEdit4("Point Color", pointColor, ImGuiColorEditFlags_AlphaPreview);
 
-	ImGui::DragInt("Step Angle", &particleStepAngle, 1.0f, 1, 360);
+	static bool enableHitRayCol = false;
+	ImGui::Checkbox("Enable Hit Ray Color", &enableHitRayCol);
+	ImGuiSFMLColorEdit4("Ray Color", rayColor, ImGuiColorEditFlags_AlphaPreview);
+	if (enableHitRayCol) {
+		ImGuiSFMLColorEdit4("Hit Ray Color", hitRayColor, ImGuiColorEditFlags_AlphaPreview);
+	} else {
+		hitRayColor = rayColor;
+	}
 
 	ImGui::End();
 }
@@ -118,13 +135,13 @@ void DrawAboutMenu(editorwindow_t& window)
 	ImGui::End();
 }
 
-void DrawEditor()
-{
-}
-
 void EditorSwitchTheme(bool darkTheme)
 {
-
+	if (darkTheme) {
+		ImGui::StyleColorsDark();
+	} else {
+		ImGui::StyleColorsLight();
+	}
 }
 
 void EditorShutdown()

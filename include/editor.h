@@ -27,7 +27,6 @@ void DrawSceneEditorSettings(editorwindow_t& window);
 void DrawIOSettings(editorwindow_t& window);
 void DrawMenuBar(editorwindow_t& window);
 void DrawAboutMenu(editorwindow_t& window);
-void DrawEditor();
 void DrawDeltaTime();
 
 void EditorSwitchTheme(bool darkTheme);

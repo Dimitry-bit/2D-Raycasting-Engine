@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "vector2_math.h"
 #include "ray.h"
 #include "renderer.h"
@@ -84,9 +86,12 @@ void DrawRay(const ray_t& ray)
 	float dirMultiplier = (!isDrawToInfinity) ? rayDrawLength : float(rWindow->getSize().x + rWindow->getSize().y);
 
 	sf::Vertex line[] = {
-		sf::Vertex(ray.origin),
-		sf::Vertex(ray.origin + (ray.direction * dirMultiplier)),
+		sf::Vertex(ray.origin, rayColor),
+		sf::Vertex(ray.origin + (ray.direction * dirMultiplier), rayColor),
 	};
 
-	rWindow->draw(line, 2, sf::Lines);
+	sf::RenderStates state;
+	state.blendMode = sf::BlendAlpha;
+
+	rWindow->draw(line, 2, sf::Lines, state);
 }
