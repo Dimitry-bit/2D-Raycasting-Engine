@@ -8,6 +8,7 @@
 sf::RenderWindow* rWindow;
 
 void HandleEvent();
+sf::View GetLetterboxView(sf::View view, int windowWidth, int windowHeight);
 
 int main()
 {
@@ -37,7 +38,11 @@ void HandleEvent()
 	while (rWindow->pollEvent(event)) {
 		ImGui::SFML::ProcessEvent(*rWindow, event);
 
-		if (event.type == sf::Event::Closed)
+		if (event.type == sf::Event::Closed) {
 			rWindow->close();
+		} else if (event.type == sf::Event::Resized) {
+			sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+			rWindow->setView(sf::View(visibleArea));
+		}
 	}
 }
