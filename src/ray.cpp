@@ -81,12 +81,12 @@ bool RayCast(const ray_t& ray, const boundary_t& boundary, sf::Vector2f& point)
 
 void DrawRay(const ray_t& ray)
 {
-	float dirMultiplier = (!isDrawToInfinity) ? rayDrawLength : float(rWindow.getSize().x + rWindow.getSize().y);
+	float dirMultiplier = (!isDrawToInfinity) ? rayDrawLength : float(rWindow->getSize().x + rWindow->getSize().y);
 
 	sf::Vertex line[] = {
 		sf::Vertex(ray.origin),
 		sf::Vertex(ray.origin + (ray.direction * dirMultiplier)),
 	};
 
-	rWindow.draw(line, 2, sf::Lines);
+	rWindow->draw(line, 2, sf::Lines);
 }

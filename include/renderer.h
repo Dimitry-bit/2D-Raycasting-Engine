@@ -2,7 +2,7 @@
 
 #include "SFML/Graphics/RenderWindow.hpp"
 
-extern sf::RenderWindow rWindow;
+extern sf::RenderWindow* rWindow;
 extern bool isDrawHitPoint;
 extern bool isDrawHitRay;
 extern bool isDrawToInfinity;

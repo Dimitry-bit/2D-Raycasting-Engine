@@ -22,5 +22,5 @@ void DrawBoundary(const boundary_t& boundary)
 		sf::Vertex(boundary.pB)
 	};
 
-	rWindow.draw(line, 2, sf::Lines);
+	rWindow->draw(line, 2, sf::Lines);
 }

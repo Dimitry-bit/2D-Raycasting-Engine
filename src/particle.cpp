@@ -71,7 +71,7 @@ void DrawParticle(const particle_t& particle)
 		DrawRay(ray);
 	}
 
-	rWindow.draw(particle.originCircle);
+	rWindow->draw(particle.originCircle);
 }
 
 void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>& boundaries)
@@ -105,5 +105,5 @@ void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>&
 		}
 	}
 
-	rWindow.draw(particle.originCircle);
+	rWindow->draw(particle.originCircle);
 }

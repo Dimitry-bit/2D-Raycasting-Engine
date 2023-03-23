@@ -5,21 +5,24 @@
 #include "renderer.h"
 #include "editor.h"
 
-sf::RenderWindow rWindow(sf::VideoMode(640, 480), "HelloSFML");
+sf::RenderWindow* rWindow;
 
 void HandleEvent();
 
 int main()
 {
-	rWindow.setFramerateLimit(60);
-	ImGui::SFML::Init(rWindow);
+	sf::ContextSettings contextSettings;
+	contextSettings.antialiasingLevel = 8;
+	sf::RenderWindow window(sf::VideoMode(640, 480), "HelloSFML", sf::Style::Default, contextSettings);
+	rWindow = &window;
 
+	ImGui::SFML::Init(window);
 	EditorInit();
 
 	sf::Clock deltaClock;
-	while (rWindow.isOpen()) {
+	while (window.isOpen()) {
 		HandleEvent();
-		ImGui::SFML::Update(rWindow, deltaClock.restart());
+		ImGui::SFML::Update(window, deltaClock.restart());
 		EditorTick();
 		RenderWindow();
 	}
@@ -31,10 +34,10 @@ int main()
 void HandleEvent()
 {
 	sf::Event event;
-	while (rWindow.pollEvent(event)) {
-		ImGui::SFML::ProcessEvent(rWindow, event);
+	while (rWindow->pollEvent(event)) {
+		ImGui::SFML::ProcessEvent(*rWindow, event);
 
 		if (event.type == sf::Event::Closed)
-			rWindow.close();
+			rWindow->close();
 	}
 }

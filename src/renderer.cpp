@@ -20,18 +20,18 @@ boundary_t b_1 = CreateBoundary(300.0f, 100.0f, 300.0f, 300.0f);
 
 void RenderWindow()
 {
-	rWindow.clear(bgColor);
+	rWindow->clear(bgColor);
 	particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, particleStepAngle);
 
 	if (isFollowMouse) {
-		ParticleSetPosition(p_1, sf::Vector2f(sf::Mouse::getPosition(rWindow)));
+		ParticleSetPosition(p_1, sf::Vector2f(sf::Mouse::getPosition(*rWindow)));
 	}
 
 	DrawParticleHits(p_1, {b_1});
 
 	DrawBoundary(b_1);
-	ImGui::SFML::Render(rWindow);
-	rWindow.display();
+	ImGui::SFML::Render(*rWindow);
+	rWindow->display();
 }
 
 void DrawPoint(const sf::Vector2f& point)
@@ -41,7 +41,7 @@ void DrawPoint(const sf::Vector2f& point)
 	circle.setPosition(point);
 	circle.setFillColor(pointColor);
 
-	rWindow.draw(circle);
+	rWindow->draw(circle);
 }
 
 void DrawLine(const sf::Vector2f& p1, const sf::Vector2f& p2)
@@ -51,5 +51,5 @@ void DrawLine(const sf::Vector2f& p1, const sf::Vector2f& p2)
 		sf::Vertex(p2)
 	};
 
-	rWindow.draw(line, 2, sf::Lines);
+	rWindow->draw(line, 2, sf::Lines);
 }
