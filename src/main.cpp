@@ -3,6 +3,7 @@
 #include "SFML/Window/Event.hpp"
 
 #include "renderer.h"
+#include "editor.h"
 
 sf::RenderWindow rWindow(sf::VideoMode(640, 480), "HelloSFML");
 
@@ -13,13 +14,17 @@ int main()
 	rWindow.setFramerateLimit(60);
 	ImGui::SFML::Init(rWindow);
 
+	EditorInit();
+
 	sf::Clock deltaClock;
 	while (rWindow.isOpen()) {
 		HandleEvent();
 		ImGui::SFML::Update(rWindow, deltaClock.restart());
+		EditorTick();
 		RenderWindow();
 	}
 
+	EditorShutdown();
 	ImGui::SFML::Shutdown();
 }
 

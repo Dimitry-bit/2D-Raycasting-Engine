@@ -16,6 +16,7 @@ particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngl
 	particle.originCircle.setRadius(radius);
 	particle.originCircle.setOrigin(radius, radius);
 	particle.originCircle.setPosition(origin);
+	particle.originCircle.setFillColor(particleColor);
 
 	for (int i = 0; i <= 360; i += stepAngleInDegree) {
 		ray_t r = CreateRay(origin, (float) i);

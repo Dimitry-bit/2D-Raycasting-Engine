@@ -8,19 +8,29 @@
 bool isDrawHitPoint = false;
 bool isDrawHitRay = true;
 bool isDrawToInfinity = true;
+bool isFollowMouse = false;
+int particleStepAngle = 10;
+
+sf::Color bgColor = sf::Color::Black;
+sf::Color pointColor = sf::Color::White;
+sf::Color particleColor = sf::Color::White;
+sf::Color rayColor = sf::Color::White;
 
 boundary_t b_1 = CreateBoundary(300.0f, 100.0f, 300.0f, 300.0f);
-particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, 10);
 
 void RenderWindow()
 {
-	rWindow.clear();
-	ImGui::SFML::Render(rWindow);
+	rWindow.clear(bgColor);
+	particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, particleStepAngle);
 
-	ParticleSetPosition(p_1, sf::Vector2f(sf::Mouse::getPosition(rWindow)));
+	if (isFollowMouse) {
+		ParticleSetPosition(p_1, sf::Vector2f(sf::Mouse::getPosition(rWindow)));
+	}
+
 	DrawParticleHits(p_1, {b_1});
 
 	DrawBoundary(b_1);
+	ImGui::SFML::Render(rWindow);
 	rWindow.display();
 }
 
@@ -29,6 +39,7 @@ void DrawPoint(const sf::Vector2f& point)
 	sf::CircleShape circle(5.0f);
 	circle.setOrigin(circle.getRadius(), circle.getRadius());
 	circle.setPosition(point);
+	circle.setFillColor(pointColor);
 
 	rWindow.draw(circle);
 }
