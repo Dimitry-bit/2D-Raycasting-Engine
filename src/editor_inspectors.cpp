@@ -89,3 +89,50 @@ void DrawParticleInspector(particle_t& particle)
 		particle.hitRayColor = particle.rayColor;
 	}
 }
+
+void DrawSceneHierarchy(editorwindow_t& window)
+{
+	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::BeginChild("Scrolling", ImVec2(400.0f, 300.0f), true, ImGuiWindowFlags_AlwaysVerticalScrollbar)) {
+		size_t entryCount = 0;
+		for (auto& b: sceneRef->boundaries) {
+			std::string s("Boundary " + std::to_string(entryCount++));
+			bool isSelected = false;
+
+			if (selectedEntry.data == b) {
+				isSelected = true;
+			}
+
+			if (ImGui::Selectable(s.c_str(), isSelected)) {
+				selectedEntry.data = b;
+				selectedEntry.type = BOUNDARY;
+			}
+		}
+
+		entryCount = 0;
+		for (auto& p: sceneRef->particles) {
+			std::string s("Particle " + std::to_string(entryCount++));
+			bool isSelected = false;
+
+			if (selectedEntry.data == p) {
+				isSelected = true;
+			}
+
+			if (ImGui::Selectable(s.c_str(), isSelected)) {
+				selectedEntry.data = p;
+				selectedEntry.type = PARTICLE;
+			}
+		}
+		ImGui::EndChild();
+	}
+
+	float scrollY = ImGui::GetScrollY();
+	float scrollMaxY = ImGui::GetScrollMaxY();
+	ImGui::Text("%.0f/%.0f", scrollY, scrollMaxY);
+
+	ImGui::End();
+}
