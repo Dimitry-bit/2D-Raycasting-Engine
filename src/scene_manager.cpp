@@ -17,11 +17,11 @@ void SceneLoad()
 void SceneUnload()
 {
 	for (auto& p: scene.particles)
-		delete p;
+		ParticleDealloc(p);
 	scene.particles.clear();
 
 	for (auto& b: scene.boundaries)
-		delete b;
+		BoundaryDealloc(b);
 	scene.boundaries.clear();
 }
 

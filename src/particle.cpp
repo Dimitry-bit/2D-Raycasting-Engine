@@ -73,6 +73,11 @@ void ParticleSetStepAngle(particle_t& particle, int stepAngle)
 	}
 }
 
+void ParticleDealloc(particle_t* particle)
+{
+	delete particle;
+}
+
 std::vector<sf::Vector2f> ParticleCastAllDirections(const particle_t& particle,
                                                     const std::vector<boundary_t>& boundaries)
 {

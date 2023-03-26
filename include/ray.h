@@ -17,6 +17,7 @@ ray_t* CreateRayAlloc(float x1, float y1, float x2, float y2);
 ray_t* CreateRayAlloc(float x1, float y1, float angleInDegree);
 ray_t* CreateRayAlloc(const sf::Vector2f& origin, sf::Vector2f direction);
 ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree);
+void RayDealloc(ray_t* ray);
 
 void RayLookAt(ray_t& ray, const sf::Vector2f& target);
 bool RayCast(const ray_t& ray, const boundary_t& boundary, sf::Vector2f& point);

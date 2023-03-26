@@ -32,6 +32,11 @@ boundary_t* CreateBoundaryAlloc(const sf::Vector2f& pA, const sf::Vector2f& pB)
 	return boundary;
 }
 
+void BoundaryDealloc(boundary_t* boundary)
+{
+	delete boundary;
+}
+
 void DrawBoundary(const boundary_t& boundary)
 {
 	sf::Vertex line[] = {

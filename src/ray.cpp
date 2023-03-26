@@ -91,6 +91,11 @@ ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree)
 	return ray;
 }
 
+void RayDealloc(ray_t* ray)
+{
+	delete ray;
+}
+
 void RayLookAt(ray_t& ray, const sf::Vector2f& target)
 {
 	ray.direction.x = target.x - ray.origin.x;
