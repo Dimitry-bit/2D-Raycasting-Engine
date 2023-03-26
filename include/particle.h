@@ -13,6 +13,8 @@ struct particle_t {
 
 particle_t CreateParticle(float x, float y, float radius, int stepAngleInDegree);
 particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngleInDegree);
+particle_t* CreateParticleAlloc(float x, float y, float radius, int stepAngleInDegree);
+particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int stepAngleInDegree);
 
 void ParticleSetPosition(particle_t& particle, float x, float y);
 void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position);

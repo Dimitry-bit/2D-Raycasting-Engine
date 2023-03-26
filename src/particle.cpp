@@ -26,6 +26,27 @@ particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngl
 	return particle;
 }
 
+particle_t* CreateParticleAlloc(float x, float y, float radius, int stepAngleInDegree)
+{
+	return CreateParticleAlloc({x, y}, radius, stepAngleInDegree);
+}
+
+particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int stepAngleInDegree)
+{
+	particle_t* particle = new particle_t;
+	particle->originCircle.setRadius(radius);
+	particle->originCircle.setOrigin(radius, radius);
+	particle->originCircle.setPosition(origin);
+	particle->originCircle.setFillColor(particleColor);
+
+	for (int i = 0; i <= 360; i += stepAngleInDegree) {
+		ray_t r = CreateRay(origin, (float) i);
+		particle->rays.push_back(r);
+	}
+
+	return particle;
+}
+
 void ParticleSetPosition(particle_t& particle, float x, float y)
 {
 	ParticleSetPosition(particle, {x, y});

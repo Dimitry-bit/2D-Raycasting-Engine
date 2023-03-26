@@ -10,4 +10,7 @@ struct boundary_t {
 boundary_t CreateBoundary(const sf::Vector2f& pA, const sf::Vector2f& pB);
 boundary_t CreateBoundary(float x1, float y1, float x2, float y2);
 
+boundary_t* CreateBoundaryAlloc(float x1, float y1, float x2, float y2);
+boundary_t* CreateBoundaryAlloc(const sf::Vector2f& pA, const sf::Vector2f& pB);
+
 void DrawBoundary(const boundary_t& boundary);

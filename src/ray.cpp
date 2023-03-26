@@ -45,6 +45,52 @@ ray_t CreateRay(const sf::Vector2f& origin, float angleInDegree)
 	};
 }
 
+ray_t* CreateRayAlloc(float x1, float y1, float x2, float y2)
+{
+	ray_t* ray = new ray_t;
+
+	ray->origin.x = x1;
+	ray->origin.y = y1;
+	ray->direction.x = x2;
+	ray->direction.y = y2;
+
+	Vector2fNormalize(ray->direction);
+
+	return ray;
+}
+
+ray_t* CreateRayAlloc(float x1, float y1, float angleInDegree)
+{
+	ray_t* ray = new ray_t;
+
+	ray->origin.x = x1;
+	ray->origin.y = y1;
+	ray->direction = Vector2fFromAngle(1.0f, angleInDegree);
+
+	return ray;
+}
+
+ray_t* CreateRayAlloc(const sf::Vector2f& origin, sf::Vector2f direction)
+{
+	ray_t* ray = new ray_t;
+
+	ray->origin = origin;
+	ray->direction = direction;
+	Vector2fNormalize(ray->direction);
+
+	return ray;
+}
+
+ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree)
+{
+	ray_t* ray = new ray_t;
+
+	ray->origin = origin;
+	ray->direction = Vector2fFromAngle(1.0f, angleInDegree);
+
+	return ray;
+}
+
 void RayLookAt(ray_t& ray, const sf::Vector2f& target)
 {
 	ray.direction.x = target.x - ray.origin.x;
