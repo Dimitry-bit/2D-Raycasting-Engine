@@ -9,6 +9,8 @@ static bool isDarkTheme = false;
 
 void EditorInit()
 {
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
 	EditorCreateAll();
 	EditorSwitchTheme(isDarkTheme);
 }
