@@ -23,7 +23,6 @@ editorwindow_t* EditorCreate(const char* name,
 void EditorCreateAll();
 
 void DrawRenderSettings(editorwindow_t& window);
-void DrawSceneEditorSettings(editorwindow_t& window);
 void DrawIOSettings(editorwindow_t& window);
 void DrawMenuBar(editorwindow_t& window);
 void DrawAboutMenu(editorwindow_t& window);

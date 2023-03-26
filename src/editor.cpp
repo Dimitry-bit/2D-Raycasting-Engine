@@ -2,6 +2,7 @@
 #include "imgui.h"
 
 #include "editor.h"
+#include "editor_inspectors.h"
 #include "renderer.h"
 
 static std::vector<editorwindow_t*> editors;
@@ -43,8 +44,8 @@ void EditorCreateAll()
 {
 	EditorCreate("Main Menu Bar", DrawMenuBar);
 	EditorCreate("Render Settings", DrawRenderSettings);
-	EditorCreate("Scene Editor", DrawSceneEditorSettings);
 	EditorCreate("IO Settings", DrawIOSettings);
+	EditorCreate("Inspector", DrawInspector);
 //	EditorCreate("About Menu", DrawAboutMenu);
 }
 
@@ -94,28 +95,12 @@ void DrawRenderSettings(editorwindow_t& window)
 	ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint);
 	ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity);
 	ImGui::Checkbox("Particle Follow Cursor", &isFollowMouse);
-	ImGui::DragInt("Step Angle", &particleStepAngle, 1, 1, 360, "%d deg");
 
 	ImGui::SeparatorText("Color Options");
 	ImGuiSFMLColorEdit4("BG Color", defaultPallet.background, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Particle Color", defaultPallet.particle, ImGuiColorEditFlags_AlphaPreview);
 	ImGuiSFMLColorEdit4("Point Color", defaultPallet.point, ImGuiColorEditFlags_AlphaPreview);
 
-	static bool enableHitRayCol = false;
-	ImGui::Checkbox("Enable Hit Ray Color", &enableHitRayCol);
-	ImGuiSFMLColorEdit4("Ray Color", defaultPallet.ray, ImGuiColorEditFlags_AlphaPreview);
-	if (enableHitRayCol) {
-		ImGuiSFMLColorEdit4("Hit Ray Color", defaultPallet.hitRay, ImGuiColorEditFlags_AlphaPreview);
-	} else {
-		defaultPallet.hitRay = defaultPallet.ray;
-	}
-
 	ImGui::End();
-}
-
-void DrawSceneEditorSettings(editorwindow_t& window)
-{
-
 }
 
 void DrawIOSettings(editorwindow_t& window)
