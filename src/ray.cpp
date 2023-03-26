@@ -127,13 +127,13 @@ bool RayCast(const ray_t& ray, const boundary_t& boundary, sf::Vector2f& point)
 	return false;
 }
 
-void DrawRay(const ray_t& ray)
+void DrawRay(const ray_t& ray, const sf::Color& color)
 {
 	float dirMultiplier = (!isDrawToInfinity) ? rayDrawLength : float(rWindow->getSize().x + rWindow->getSize().y);
 
 	sf::Vertex line[] = {
-		sf::Vertex(ray.origin, rayColor),
-		sf::Vertex(ray.origin + (ray.direction * dirMultiplier), rayColor),
+		sf::Vertex(ray.origin, color),
+		sf::Vertex(ray.origin + (ray.direction * dirMultiplier), color),
 	};
 
 	sf::RenderStates state;

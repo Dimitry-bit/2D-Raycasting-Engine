@@ -1,4 +1,3 @@
-#include <cmath>
 #include "imgui-SFML.h"
 #include "SFML/Graphics/CircleShape.hpp"
 
@@ -14,17 +13,20 @@ bool isFollowMouse = false;
 
 int particleStepAngle = 1;
 
-sf::Color bgColor = sf::Color::Black;
-sf::Color pointColor = sf::Color::White;
-sf::Color particleColor = sf::Color::White;
-sf::Color rayColor = sf::Color(255, 255, 255, 30);
-sf::Color hitRayColor = sf::Color(255, 255, 255, 30);
+pallet_t defaultPallet = {
+	.background = sf::Color::Black,
+	.boundary = sf::Color::White,
+	.point = sf::Color::White,
+	.particle = sf::Color::White,
+	.ray = sf::Color(255, 255, 255, 30),
+	.hitRay = sf::Color(255, 255, 255, 30),
+};
 
 boundary_t b_1 = CreateBoundary(300.0f, 100.0f, 300.0f, 300.0f);
 
 void RenderWindow()
 {
-	rWindow->clear(bgColor);
+	rWindow->clear(defaultPallet.background);
 	particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, particleStepAngle);
 
 	if (isFollowMouse) {
@@ -38,21 +40,21 @@ void RenderWindow()
 	rWindow->display();
 }
 
-void DrawPoint(const sf::Vector2f& point)
+void DrawPoint(const sf::Vector2f& point, const sf::Color& color)
 {
 	sf::CircleShape circle(5.0f);
 	circle.setOrigin(circle.getRadius(), circle.getRadius());
 	circle.setPosition(point);
-	circle.setFillColor(pointColor);
+	circle.setFillColor(color);
 
 	rWindow->draw(circle);
 }
 
-void DrawLine(const sf::Vector2f& p1, const sf::Vector2f& p2)
+void DrawLine(const sf::Vector2f& p1, const sf::Vector2f& p2, const sf::Color& color)
 {
 	sf::Vertex line[] = {
-		sf::Vertex(p1, hitRayColor),
-		sf::Vertex(p2, hitRayColor)
+		sf::Vertex(p1, color),
+		sf::Vertex(p2, color)
 	};
 
 	sf::RenderStates state;

@@ -16,7 +16,7 @@ particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngl
 	particle.originCircle.setRadius(radius);
 	particle.originCircle.setOrigin(radius, radius);
 	particle.originCircle.setPosition(origin);
-	particle.originCircle.setFillColor(particleColor);
+	particle.originCircle.setFillColor(defaultPallet.particle);
 
 	for (int i = 0; i <= 360; i += stepAngleInDegree) {
 		ray_t r = CreateRay(origin, (float) i);
@@ -37,7 +37,7 @@ particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int st
 	particle->originCircle.setRadius(radius);
 	particle->originCircle.setOrigin(radius, radius);
 	particle->originCircle.setPosition(origin);
-	particle->originCircle.setFillColor(particleColor);
+	particle->originCircle.setFillColor(defaultPallet.particle);
 
 	for (int i = 0; i <= 360; i += stepAngleInDegree) {
 		ray_t r = CreateRay(origin, (float) i);
@@ -57,6 +57,16 @@ void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position)
 	particle.originCircle.setPosition(position);
 	for (auto& ray: particle.rays) {
 		ray.origin = position;
+	}
+}
+
+void ParticleSetStepAngle(particle_t& particle, int stepAngle)
+{
+	particle.rays.clear();
+
+	for (int i = 0; i <= 360; i += stepAngle) {
+		ray_t r = CreateRay(particle.originCircle.getPosition(), (float) i);
+		particle.rays.push_back(r);
 	}
 }
 
@@ -116,13 +126,13 @@ void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>&
 
 		if (closestPoint != ray.origin) {
 			if (isDrawHitPoint) {
-				DrawPoint(closestPoint);
+				DrawPoint(closestPoint, defaultPallet.point);
 			}
 			if (isDrawHitRay) {
-				DrawLine(ray.origin, closestPoint);
+				DrawLine(ray.origin, closestPoint, defaultPallet.hitRay);
 			}
 		} else {
-			DrawRay(ray);
+			DrawRay(ray, defaultPallet.ray);
 		}
 	}
 

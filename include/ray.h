@@ -21,4 +21,4 @@ ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree);
 void RayLookAt(ray_t& ray, const sf::Vector2f& target);
 bool RayCast(const ray_t& ray, const boundary_t& boundary, sf::Vector2f& point);
 
-void DrawRay(const ray_t& ray);
+void DrawRay(const ray_t& ray, const sf::Color& color = sf::Color::White);

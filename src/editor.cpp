@@ -97,17 +97,17 @@ void DrawRenderSettings(editorwindow_t& window)
 	ImGui::DragInt("Step Angle", &particleStepAngle, 1, 1, 360, "%d deg");
 
 	ImGui::SeparatorText("Color Options");
-	ImGuiSFMLColorEdit4("BG Color", bgColor, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Particle Color", particleColor, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Point Color", pointColor, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("BG Color", defaultPallet.background, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Particle Color", defaultPallet.particle, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Point Color", defaultPallet.point, ImGuiColorEditFlags_AlphaPreview);
 
 	static bool enableHitRayCol = false;
 	ImGui::Checkbox("Enable Hit Ray Color", &enableHitRayCol);
-	ImGuiSFMLColorEdit4("Ray Color", rayColor, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Ray Color", defaultPallet.ray, ImGuiColorEditFlags_AlphaPreview);
 	if (enableHitRayCol) {
-		ImGuiSFMLColorEdit4("Hit Ray Color", hitRayColor, ImGuiColorEditFlags_AlphaPreview);
+		ImGuiSFMLColorEdit4("Hit Ray Color", defaultPallet.hitRay, ImGuiColorEditFlags_AlphaPreview);
 	} else {
-		hitRayColor = rayColor;
+		defaultPallet.hitRay = defaultPallet.ray;
 	}
 
 	ImGui::End();
