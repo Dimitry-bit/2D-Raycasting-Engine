@@ -1,10 +1,10 @@
 #include "imgui-SFML.h"
 #include "SFML/Graphics/CircleShape.hpp"
 
-#include "vector2_math.h"
 #include "renderer.h"
 #include "boundary.h"
 #include "particle.h"
+#include "scene_manager.h"
 
 bool isDrawHitPoint = false;
 bool isDrawHitRay = true;
@@ -22,20 +22,24 @@ pallet_t defaultPallet = {
 	.hitRay = sf::Color(255, 255, 255, 30),
 };
 
-boundary_t b_1 = CreateBoundary(300.0f, 100.0f, 300.0f, 300.0f);
-
 void RenderWindow()
 {
 	rWindow->clear(defaultPallet.background);
-	particle_t p_1 = CreateParticle(100.0f, 100.0f, 10.0f, particleStepAngle);
 
-	if (isFollowMouse) {
-		ParticleSetPosition(p_1, sf::Vector2f(sf::Mouse::getPosition(*rWindow)));
+//	if (isFollowMouse) {
+//		ParticleSetPosition(p, sf::Vector2f(sf::Mouse::getPosition(*rWindow)));
+//	}
+
+	for (auto& p: sceneRef->particles) {
+		for (auto& b: sceneRef->boundaries) {
+			DrawParticleHits(*p, {*b});
+		}
 	}
 
-	DrawParticleHits(p_1, {b_1});
+	for (auto& b: sceneRef->boundaries) {
+		DrawBoundary(*b);
+	}
 
-	DrawBoundary(b_1);
 	ImGui::SFML::Render(*rWindow);
 	rWindow->display();
 }

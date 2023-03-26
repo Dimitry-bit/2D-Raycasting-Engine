@@ -1,10 +1,22 @@
 #include "editor_inspectors.h"
+#include "scene_manager.h"
 
 void DrawInspector(editorwindow_t& window)
 {
 	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
 		ImGui::End();
 		return;
+	}
+
+	switch (selectedEntry.type) {
+		case PARTICLE:
+			DrawParticleInspector(*(particle_t*) selectedEntry.data);
+			break;
+		case BOUNDARY:
+			DrawBoundaryInspector(*(boundary_t*) selectedEntry.data);
+			break;
+		default:
+			break;
 	}
 
 	ImGui::End();

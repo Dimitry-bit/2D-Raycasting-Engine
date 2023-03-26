@@ -4,6 +4,7 @@
 
 #include "renderer.h"
 #include "editor.h"
+#include "scene_manager.h"
 
 sf::RenderWindow* rWindow;
 
@@ -18,6 +19,7 @@ int main()
 	rWindow = &window;
 
 	ImGui::SFML::Init(window);
+	SceneLoad();
 	EditorInit();
 
 	sf::Clock deltaClock;
@@ -29,6 +31,7 @@ int main()
 	}
 
 	EditorShutdown();
+	SceneUnload();
 	ImGui::SFML::Shutdown();
 }
 
