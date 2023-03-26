@@ -32,11 +32,11 @@ boundary_t* CreateBoundaryAlloc(const sf::Vector2f& pA, const sf::Vector2f& pB)
 	return boundary;
 }
 
-void DrawBoundary(const boundary_t& boundary, const sf::Color& color)
+void DrawBoundary(const boundary_t& boundary)
 {
 	sf::Vertex line[] = {
-		sf::Vertex(boundary.pA, color),
-		sf::Vertex(boundary.pB, color)
+		sf::Vertex(boundary.pA, boundary.color),
+		sf::Vertex(boundary.pB, boundary.color)
 	};
 
 	rWindow->draw(line, 2, sf::Lines);
