@@ -63,6 +63,7 @@ void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position)
 void ParticleSetStepAngle(particle_t& particle, int stepAngle)
 {
 	particle.rays.clear();
+	particle.stepAngle = stepAngle;
 
 	for (int i = 0; i <= 360; i += stepAngle) {
 		ray_t r = CreateRay(particle.originCircle.getPosition(), (float) i);
@@ -129,10 +130,10 @@ void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>&
 				DrawPoint(closestPoint, defaultPallet.point);
 			}
 			if (isDrawHitRay) {
-				DrawLine(ray.origin, closestPoint, defaultPallet.hitRay);
+				DrawLine(ray.origin, closestPoint, particle.hitRayColor);
 			}
 		} else {
-			DrawRay(ray, defaultPallet.ray);
+			DrawRay(ray, particle.rayColor);
 		}
 	}
 

@@ -9,6 +9,7 @@
 struct particle_t {
 	sf::CircleShape originCircle;
 	std::vector<ray_t> rays;
+	int stepAngle;
 	sf::Color hitRayColor;
 	sf::Color rayColor;
 };
