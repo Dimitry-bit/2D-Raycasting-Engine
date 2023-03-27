@@ -5,6 +5,7 @@
 #include "renderer.h"
 #include "editor.h"
 #include "scene_manager.h"
+#include "input.h"
 
 sf::RenderWindow* rWindow;
 
@@ -26,6 +27,7 @@ int main()
 	while (window.isOpen()) {
 		HandleEvent();
 		ImGui::SFML::Update(window, deltaClock.restart());
+		GameLoop();
 		EditorTick();
 		RenderWindow();
 	}
@@ -41,11 +43,35 @@ void HandleEvent()
 	while (rWindow->pollEvent(event)) {
 		ImGui::SFML::ProcessEvent(*rWindow, event);
 
-		if (event.type == sf::Event::Closed) {
-			rWindow->close();
-		} else if (event.type == sf::Event::Resized) {
-			sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-			rWindow->setView(sf::View(visibleArea));
+		switch (event.type) {
+			case sf::Event::Closed: {
+				rWindow->close();
+			}
+				break;
+			case sf::Event::MouseButtonPressed: {
+				SetMouseKeyStatus(event.mouseButton.button, KEY_PRESSED);
+			}
+				break;
+			case sf::Event::KeyPressed:
+			case sf::Event::JoystickButtonPressed: {
+				SetKeyStatus(event.key.code, KEY_PRESSED);
+			}
+				break;
+			case sf::Event::MouseButtonReleased: {
+				SetMouseKeyStatus(event.mouseButton.button, KEY_RELEASED);
+			}
+				break;
+			case sf::Event::KeyReleased:
+			case sf::Event::JoystickButtonReleased: {
+				SetKeyStatus(event.key.code, KEY_RELEASED);
+			}
+				break;
+			case sf::Event::Resized: {
+				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+				rWindow->setView(sf::View(visibleArea));
+			}
+				break;
+			default: break;
 		}
 	}
 }

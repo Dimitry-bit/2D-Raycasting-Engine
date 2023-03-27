@@ -46,6 +46,7 @@ void EditorCreateAll()
 	EditorCreate("Render Settings", DrawRenderSettings);
 	EditorCreate("IO Settings", DrawIOSettings);
 	EditorCreate("Inspector", DrawInspector);
+	EditorCreate("Scene Hierarchy", DrawSceneHierarchy);
 //	EditorCreate("About Menu", DrawAboutMenu);
 }
 
