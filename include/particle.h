@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <list>
 #include "SFML/Graphics.hpp"
 
 #include "ray.h"
@@ -25,8 +25,8 @@ void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position);
 void ParticleSetStepAngle(particle_t& particle, int stepAngle);
 
 std::vector<sf::Vector2f> ParticleCastAllDirections(const particle_t& particle,
-                                                    const std::vector<boundary_t>& boundaries);
+                                                    const std::list<boundary_t*>& boundaries);
 
-void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>& boundaries);
+void DrawParticleHits(const particle_t& particle, const std::list<boundary_t*>& boundaries);
 
 void DrawParticle(const particle_t& particle);

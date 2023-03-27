@@ -113,7 +113,7 @@ void DrawParticle(const particle_t& particle)
 	rWindow->draw(particle.originCircle);
 }
 
-void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>& boundaries)
+void DrawParticleHits(const particle_t& particle, const std::list<boundary_t*>& boundaries)
 {
 	for (auto& ray: particle.rays) {
 		sf::Vector2f closestPoint = ray.origin;
@@ -121,7 +121,7 @@ void DrawParticleHits(const particle_t& particle, const std::vector<boundary_t>&
 
 		for (auto& boundary: boundaries) {
 			sf::Vector2f point;
-			if (!RayCast(ray, boundary, point)) {
+			if (!RayCast(ray, *boundary, point)) {
 				continue;
 			}
 

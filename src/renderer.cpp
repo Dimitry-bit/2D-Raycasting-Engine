@@ -26,14 +26,8 @@ void RenderWindow()
 {
 	rWindow->clear(defaultPallet.background);
 
-//	if (isFollowMouse) {
-//		ParticleSetPosition(p, sf::Vector2f(sf::Mouse::getPosition(*rWindow)));
-//	}
-
 	for (auto& p: sceneRef->particles) {
-		for (auto& b: sceneRef->boundaries) {
-			DrawParticleHits(*p, {*b});
-		}
+		DrawParticleHits(*p, sceneRef->boundaries);
 	}
 
 	for (auto& b: sceneRef->boundaries) {
