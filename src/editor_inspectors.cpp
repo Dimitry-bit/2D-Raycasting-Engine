@@ -67,9 +67,9 @@ void DrawParticleInspector(particle_t& particle)
 		}
 	}
 
-	int stepAngle = particle.stepAngle;
-	if (ImGui::DragInt("Step Angle", &stepAngle, 1, 1, 360, "%d deg")) {
-		ParticleSetStepAngle(particle, stepAngle);
+	int nRays = particle.nRays;
+	if (ImGui::DragInt("Number of Rays", &nRays, 1, 1, 360)) {
+		ParticleSetNumberOfRays(particle, nRays);
 	}
 
 	ImGui::SeparatorText("Color");

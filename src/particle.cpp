@@ -5,52 +5,58 @@
 #include "particle.h"
 #include "renderer.h"
 
-particle_t CreateParticle(float x, float y, float radius, int stepAngleInDegree)
+void PopulateRayVector(std::vector<ray_t>& vect, const sf::Vector2f& origin, int nRays);
+
+particle_t CreateParticle(float x, float y, float radius, int nRays)
 {
-	return CreateParticle({x, y}, radius, stepAngleInDegree);
+	return CreateParticle({x, y}, radius, nRays);
 }
 
-particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngleInDegree)
+particle_t CreateParticle(const sf::Vector2f& origin, float radius, int nRays)
 {
 	particle_t particle;
 	particle.originCircle.setRadius(radius);
 	particle.originCircle.setOrigin(radius, radius);
 	particle.originCircle.setPosition(origin);
 	particle.originCircle.setFillColor(defaultColPallet.particle);
-	particle.stepAngle = stepAngleInDegree;
+	particle.nRays = nRays;
 	particle.rayColor = defaultColPallet.ray;
 	particle.hitRayColor = defaultColPallet.hitRay;
-
-	for (int i = 0; i <= 360; i += stepAngleInDegree) {
-		ray_t r = CreateRay(origin, (float) i);
-		particle.rays.push_back(r);
-	}
+	PopulateRayVector(particle.rays, origin, nRays);
 
 	return particle;
 }
 
-particle_t* CreateParticleAlloc(float x, float y, float radius, int stepAngleInDegree)
+particle_t* CreateParticleAlloc(float x, float y, float radius, int nRays)
 {
-	return CreateParticleAlloc({x, y}, radius, stepAngleInDegree);
+	return CreateParticleAlloc({x, y}, radius, nRays);
 }
 
-particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int stepAngleInDegree)
+particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int nRays)
 {
 	particle_t* particle = new particle_t;
 	particle->originCircle.setRadius(radius);
 	particle->originCircle.setOrigin(radius, radius);
 	particle->originCircle.setPosition(origin);
 	particle->originCircle.setFillColor(defaultColPallet.particle);
-	particle->stepAngle = stepAngleInDegree;
+	particle->nRays = nRays;
 	particle->rayColor = defaultColPallet.ray;
 	particle->hitRayColor = defaultColPallet.hitRay;
-
-	for (int i = 0; i <= 360; i += stepAngleInDegree) {
-		ray_t r = CreateRay(origin, (float) i);
-		particle->rays.push_back(r);
-	}
+	PopulateRayVector(particle->rays, origin, nRays);
 
 	return particle;
+}
+
+void PopulateRayVector(std::vector<ray_t>& vect, const sf::Vector2f& origin, int nRays)
+{
+	vect.clear();
+
+	float angle = 360.0f / nRays;
+
+	for (int i = 0; i < nRays; i++) {
+		ray_t r = CreateRay(origin, i * angle);
+		vect.push_back(r);
+	}
 }
 
 void ParticleSetPosition(particle_t& particle, float x, float y)
@@ -66,15 +72,11 @@ void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position)
 	}
 }
 
-void ParticleSetStepAngle(particle_t& particle, int stepAngle)
+void ParticleSetNumberOfRays(particle_t& particle, int nRays)
 {
-	particle.rays.clear();
-	particle.stepAngle = stepAngle;
-
-	for (int i = 0; i <= 360; i += stepAngle) {
-		ray_t r = CreateRay(particle.originCircle.getPosition(), (float) i);
-		particle.rays.push_back(r);
-	}
+	UpdateRayCount(int(-particle.rays.size()));
+	particle.nRays = nRays;
+	PopulateRayVector(particle.rays, particle.originCircle.getPosition(), nRays);
 }
 
 void ParticleDealloc(particle_t* particle)

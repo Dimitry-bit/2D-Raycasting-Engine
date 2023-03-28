@@ -9,20 +9,20 @@
 struct particle_t {
 	sf::CircleShape originCircle;
 	std::vector<ray_t> rays;
-	int stepAngle;
+	int nRays;
 	sf::Color hitRayColor;
 	sf::Color rayColor;
 };
 
-particle_t CreateParticle(float x, float y, float radius, int stepAngleInDegree);
-particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngleInDegree);
-particle_t* CreateParticleAlloc(float x, float y, float radius, int stepAngleInDegree);
-particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int stepAngleInDegree);
+particle_t CreateParticle(float x, float y, float radius, int nRays);
+particle_t CreateParticle(const sf::Vector2f& origin, float radius, int nRays);
+particle_t* CreateParticleAlloc(float x, float y, float radius, int nRays);
+particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int nRays);
 void ParticleDealloc(particle_t* particle);
 
 void ParticleSetPosition(particle_t& particle, float x, float y);
 void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position);
-void ParticleSetStepAngle(particle_t& particle, int stepAngle);
+void ParticleSetNumberOfRays(particle_t& particle, int nRays);
 
 std::vector<sf::Vector2f> ParticleCastAllDirections(const particle_t& particle,
                                                     const std::list<boundary_t*>& boundaries);
