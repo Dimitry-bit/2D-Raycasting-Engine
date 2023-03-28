@@ -126,8 +126,9 @@ void DrawSceneHierarchy(editorwindow_t& window)
 				isFollowMouse = false;
 			}
 		}
-		ImGui::EndChild();
 	}
+
+	ImGui::EndChild();
 
 	float scrollY = ImGui::GetScrollY();
 	float scrollMaxY = ImGui::GetScrollMaxY();
