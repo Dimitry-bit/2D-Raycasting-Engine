@@ -27,6 +27,7 @@ void EditorInit()
 
 	EditorCreateAll();
 	EditorSwitchTheme(isDarkTheme);
+	printf("[INFO][Editor]: Editor initialized successfully.\n");
 }
 
 void EditorEvent(sf::Event event)
@@ -55,6 +56,7 @@ editorwindow_t* EditorCreate(const char* name,
 	          editors.end(),
 	          [](const editorwindow_t* a, const editorwindow_t* b) { return strcmp(a->name, b->name); });
 
+	printf("[INFO][Editor]: %s editor window created successfully.\n", window->name);
 	return window;
 }
 
@@ -113,13 +115,19 @@ void DrawRenderSettings(editorwindow_t& window)
 	}
 
 	ImGui::SeparatorText("Draw Options");
-	ImGui::Checkbox("Draw Hit Ray", &isDrawHitRay);
-	ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint);
-	ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity);
+	if (ImGui::Checkbox("Draw Hit Ray", &isDrawHitRay)) {
+		printf("[INFO][Editor]: Draw Hit Ray %s.\n", isDrawHitRay ? "enabled" : "disabled");
+	}
+	if (ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint)) {
+		printf("[INFO][Editor]: Draw Hit Point %s.\n", isDrawHitPoint ? "enabled" : "disabled");
+	}
+	if (ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity)) {
+		printf("[INFO][Editor]: Draw Ray To Infinity %s.\n", isDrawToInfinity ? "enabled" : "disabled");
+	}
 
 	ImGui::SeparatorText("Color Options");
-	ImGuiSFMLColorEdit4("BG Color", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Point Color", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("BG", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Point", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
 
 	ImGui::End();
 }
@@ -150,6 +158,8 @@ void EditorSwitchTheme(bool darkTheme)
 	} else {
 		ImGui::StyleColorsLight();
 	}
+
+	printf("[INFO][Editor]: Dark theme %s\n", darkTheme ? "enabled" : "disabled");
 }
 
 void DrawUI()
@@ -159,9 +169,8 @@ void DrawUI()
 	float yWindowOffset = 15.0f;
 
 	sf::Font font;
-	static bool loaded = false;
 	if (!font.loadFromFile("../resources/font/JetBrainsMono-Regular.ttf")) {
-		loaded = true;
+		printf("[ERROR][Editor]: Unable to load font.\n");
 		return;
 	}
 
@@ -194,18 +203,22 @@ void DrawUI()
 void EditorShutdown()
 {
 	for (auto& editor: editors) {
+		printf("[INFO][Editor]: %s editor window freed successfully.\n", editor->name);
 		free((void*) editor->name);
 		free((void*) editor);
 	}
 
 	editors.clear();
 	ImGui::SFML::Shutdown();
+	printf("[INFO][Editor]: Editor deinitialize successfully.\n");
 }
 
 void ImGuiSFMLColorEdit4(const char* label, sf::Color& sfmlColor, ImGuiColorEditFlags colorFlags)
 {
 	ImVec4 colVec(sfmlColor);
 	float colf[4] = {colVec.x, colVec.y, colVec.z, colVec.w};
-	ImGui::ColorEdit4(label, colf, colorFlags);
+	if (ImGui::ColorEdit4(label, colf, colorFlags)) {
+		printf("[INFO][Editor] %s color changed.\n", label);
+	}
 	sfmlColor = sf::Color(ImGui::ColorConvertFloat4ToU32({colf[3], colf[2], colf[1], colf[0]}));
 }

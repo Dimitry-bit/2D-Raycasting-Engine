@@ -23,6 +23,7 @@ void ParticleDealloc(particle_t* particle);
 void ParticleSetPosition(particle_t& particle, float x, float y);
 void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position);
 void ParticleSetNumberOfRays(particle_t& particle, int nRays);
+void ParticleSetScale(particle_t& particle, const sf::Vector2f& scale);
 
 std::vector<sf::Vector2f> ParticleCastAllDirections(const particle_t& particle,
                                                     const std::list<boundary_t*>& boundaries);

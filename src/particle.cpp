@@ -23,6 +23,7 @@ particle_t CreateParticle(const sf::Vector2f& origin, float radius, int nRays)
 	particle.rayColor = defaultColPallet.ray;
 	particle.hitRayColor = defaultColPallet.hitRay;
 	PopulateRayVector(particle.rays, origin, nRays);
+	printf("[INFO][Particle]: Particle created at position (%.2f, %.2f).\n", origin.x, origin.y);
 
 	return particle;
 }
@@ -43,6 +44,7 @@ particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int nR
 	particle->rayColor = defaultColPallet.ray;
 	particle->hitRayColor = defaultColPallet.hitRay;
 	PopulateRayVector(particle->rays, origin, nRays);
+	printf("[INFO][Particle]: (Alloc) Particle created at position (%.2f, %.2f).\n", origin.x, origin.y);
 
 	return particle;
 }
@@ -70,18 +72,27 @@ void ParticleSetPosition(particle_t& particle, const sf::Vector2f& position)
 	for (auto& ray: particle.rays) {
 		ray.origin = position;
 	}
+	printf("[INFO][Particle]: Particle position is set to (%.2f, %.2f).\n", position.x, position.y);
 }
 
 void ParticleSetNumberOfRays(particle_t& particle, int nRays)
 {
+	printf("[INFO][Particle]: Particle number of rays is set to %d.\n", nRays);
 	UpdateRayCount(int(-particle.rays.size()));
 	particle.nRays = nRays;
 	PopulateRayVector(particle.rays, particle.originCircle.getPosition(), nRays);
 }
 
+void ParticleSetScale(particle_t& particle, const sf::Vector2f& scale)
+{
+	particle.originCircle.setScale(scale);
+	printf("[INFO][Particle]: Particle scale is set to (%.2f, %.2f).\n", scale.x, scale.y);
+}
+
 void ParticleDealloc(particle_t* particle)
 {
 	delete particle;
+	printf("[INFO][Particle]: Particle destroyed.\n");
 }
 
 std::vector<sf::Vector2f> ParticleCastAllDirections(const particle_t& particle,

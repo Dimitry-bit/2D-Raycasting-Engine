@@ -86,6 +86,12 @@ ray_t* CreateRayAlloc(const sf::Vector2f& origin, sf::Vector2f direction)
 	ray->direction = direction;
 	Vector2fNormalize(ray->direction);
 
+	printf("[INFO][Ray]: Ray created at position (%.2f, %.2f) with direction (%.2f, %.2f).\n",
+	       origin.x,
+	       origin.y,
+	       ray->direction.x,
+	       ray->direction.y);
+
 	return ray;
 }
 
@@ -97,6 +103,12 @@ ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree)
 	ray->origin = origin;
 	ray->direction = Vector2fFromAngle(1.0f, angleInDegree);
 
+	printf("[INFO][Ray]: (Alloc) Ray created at position (%.2f, %.2f) with direction (%.2f, %.2f).\n",
+	       origin.x,
+	       origin.y,
+	       ray->direction.x,
+	       ray->direction.y);
+
 	return ray;
 }
 
@@ -104,6 +116,7 @@ void RayDealloc(ray_t* ray)
 {
 	rayCount--;
 	delete ray;
+	printf("[INFO][Ray] Ray destroyed.\n");
 }
 
 void RayLookAt(ray_t& ray, const sf::Vector2f& target)

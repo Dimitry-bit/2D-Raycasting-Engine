@@ -28,17 +28,18 @@ void DrawBoundaryInspector(boundary_t& boundary)
 
 	vec2f[0] = boundary.pA.x;
 	vec2f[1] = boundary.pA.y;
-	ImGui::DragFloat2("Position A", vec2f);
-	boundary.pA.x = vec2f[0];
-	boundary.pA.y = vec2f[1];
+	if (ImGui::DragFloat2("Position A", vec2f)) {
+		BoundarySetPosition(boundary, vec2f[0], vec2f[1], boundary.pB.x, boundary.pB.y);
+	}
 
 	vec2f[0] = boundary.pB.x;
 	vec2f[1] = boundary.pB.y;
-	ImGui::DragFloat2("Position B", vec2f);
-	boundary.pB.x = vec2f[0];
-	boundary.pB.y = vec2f[1];
+	if (ImGui::DragFloat2("Position B", vec2f)) {
+		BoundarySetPosition(boundary, boundary.pA.x, boundary.pA.y, vec2f[0], vec2f[1]);
+	}
 
-	ImGuiSFMLColorEdit4("Color", boundary.color, ImGuiColorEditFlags_AlphaPreview);
+	ImGui::SeparatorText("Color");
+	ImGuiSFMLColorEdit4("Boundary", boundary.color, ImGuiColorEditFlags_AlphaPreview);
 }
 
 void DrawParticleInspector(particle_t& particle)
@@ -63,7 +64,7 @@ void DrawParticleInspector(particle_t& particle)
 			vec2.x = vec2f[0];
 			vec2.y = vec2f[1];
 
-			particle.originCircle.setScale(vec2);
+			ParticleSetScale(particle, vec2);
 		}
 	}
 
