@@ -16,14 +16,16 @@ void DestroyParticle(particle_t** particle);
 
 void GameLoop()
 {
-	if (b && vertexPlacementCount >= 1) {
-		b->pB = sf::Vector2f(sf::Mouse::getPosition(*rWindow));
-	}
-
 	if (isKeyPressed(sf::Keyboard::Num1)) {
 		createObjectOfType = BOUNDARY;
-	} else if (isKeyReleased(sf::Keyboard::Num2)) {
+	}
+
+	if (isKeyReleased(sf::Keyboard::Num2)) {
 		createObjectOfType = PARTICLE;
+	}
+
+	if (isKeyPressed(sf::Keyboard::F)) {
+		isFollowMouse = !isFollowMouse;
 	}
 
 	if (isKeyPressed(sf::Keyboard::Delete)) {
@@ -48,6 +50,17 @@ void GameLoop()
 			PlaceBoundary();
 		} else if (createObjectOfType == PARTICLE) {
 			PlaceParticle();
+		}
+	}
+
+	if (b && vertexPlacementCount >= 1) {
+		b->pB = sf::Vector2f(sf::Mouse::getPosition(*rWindow));
+	}
+
+	if (isFollowMouse && selectedEntry.type == PARTICLE && selectedEntry.data) {
+		if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered()) {
+			particle_t* p = (particle_t*) selectedEntry.data;
+			ParticleSetPosition(*p, sf::Vector2f(sf::Mouse::getPosition(*rWindow)));
 		}
 	}
 

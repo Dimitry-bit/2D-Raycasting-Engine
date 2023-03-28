@@ -95,7 +95,6 @@ void DrawRenderSettings(editorwindow_t& window)
 	ImGui::Checkbox("Draw Hit Ray", &isDrawHitRay);
 	ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint);
 	ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity);
-	ImGui::Checkbox("Particle Follow Cursor", &isFollowMouse);
 
 	ImGui::SeparatorText("Color Options");
 	ImGuiSFMLColorEdit4("BG Color", defaultPallet.background, ImGuiColorEditFlags_AlphaPreview);

@@ -9,14 +9,11 @@ void DrawInspector(editorwindow_t& window)
 	}
 
 	switch (selectedEntry.type) {
-		case PARTICLE:
-			DrawParticleInspector(*(particle_t*) selectedEntry.data);
+		case PARTICLE: DrawParticleInspector(*(particle_t*) selectedEntry.data);
 			break;
-		case BOUNDARY:
-			DrawBoundaryInspector(*(boundary_t*) selectedEntry.data);
+		case BOUNDARY: DrawBoundaryInspector(*(boundary_t*) selectedEntry.data);
 			break;
-		default:
-			break;
+		default: break;
 	}
 
 	ImGui::End();
@@ -110,6 +107,7 @@ void DrawSceneHierarchy(editorwindow_t& window)
 			if (ImGui::Selectable(s.c_str(), isSelected)) {
 				selectedEntry.data = b;
 				selectedEntry.type = BOUNDARY;
+				isFollowMouse = false;
 			}
 		}
 
@@ -125,6 +123,7 @@ void DrawSceneHierarchy(editorwindow_t& window)
 			if (ImGui::Selectable(s.c_str(), isSelected)) {
 				selectedEntry.data = p;
 				selectedEntry.type = PARTICLE;
+				isFollowMouse = false;
 			}
 		}
 		ImGui::EndChild();
