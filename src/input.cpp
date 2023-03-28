@@ -57,14 +57,17 @@ void GameLoop()
 {
 	if (isKeyPressed(sf::Keyboard::Num1)) {
 		createObjectOfType = BOUNDARY;
+		printf("[INFO][Input]: Instantiate type is set to boundary.\n");
 	}
 
 	if (isKeyReleased(sf::Keyboard::Num2)) {
 		createObjectOfType = PARTICLE;
+		printf("[INFO][Input]: Instantiate type is set to particle.\n");
 	}
 
 	if (isKeyPressed(sf::Keyboard::F)) {
 		isFollowCursor = !isFollowCursor;
+		printf("[INFO][Input]: Follow Cursor %s.\n", isFollowCursor ? "enabled" : "disabled");
 	}
 
 	if (isKeyPressed(sf::Keyboard::Delete)) {
