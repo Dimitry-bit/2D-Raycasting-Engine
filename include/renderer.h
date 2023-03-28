@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/System/Time.hpp"
 
 struct pallet_t {
 	sf::Color background;
@@ -22,6 +23,6 @@ extern int particleStepAngle;
 
 extern pallet_t defaultPallet;
 
-void RenderWindow();
+void RenderWindow(sf::Time deltaTime);
 void DrawPoint(const sf::Vector2f& point, const sf::Color& color = sf::Color::White);
 void DrawLine(const sf::Vector2f& p1, const sf::Vector2f& p2, const sf::Color& color = sf::Color::White);

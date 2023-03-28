@@ -4,6 +4,12 @@
 #include "input.h"
 #include "scene_manager.h"
 
+enum keystatus_t {
+	KEY_OFF = 0,
+	KEY_PRESSED,
+	KEY_RELEASED,
+};
+
 static std::map<sf::Keyboard::Key, keystatus_t> keyMap;
 static std::map<sf::Mouse::Button, keystatus_t> mouseKeyMap;
 
@@ -11,8 +17,39 @@ static boundary_t* b = nullptr;
 static int vertexPlacementCount = 0;
 static selections_t createObjectOfType = BOUNDARY;
 
+void ClearKeyStatus();
+void SetKeyStatus(sf::Keyboard::Key key, keystatus_t status);
+void SetMouseKeyStatus(sf::Mouse::Button key, keystatus_t status);
+
+void PlaceParticle();
+void PlaceBoundary();
 void DestroyBoundary(boundary_t** boundary);
 void DestroyParticle(particle_t** particle);
+
+void InputEvent(sf::Event event)
+{
+	switch (event.type) {
+		case sf::Event::MouseButtonPressed: {
+			SetMouseKeyStatus(event.mouseButton.button, KEY_PRESSED);
+		}
+			break;
+		case sf::Event::KeyPressed:
+		case sf::Event::JoystickButtonPressed: {
+			SetKeyStatus(event.key.code, KEY_PRESSED);
+		}
+			break;
+		case sf::Event::MouseButtonReleased: {
+			SetMouseKeyStatus(event.mouseButton.button, KEY_RELEASED);
+		}
+			break;
+		case sf::Event::KeyReleased:
+		case sf::Event::JoystickButtonReleased: {
+			SetKeyStatus(event.key.code, KEY_RELEASED);
+		}
+			break;
+		default: break;
+	}
+}
 
 void GameLoop()
 {

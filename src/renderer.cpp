@@ -1,6 +1,7 @@
 #include "imgui-SFML.h"
 #include "SFML/Graphics/CircleShape.hpp"
 
+#include "editor.h"
 #include "renderer.h"
 #include "boundary.h"
 #include "particle.h"
@@ -22,9 +23,11 @@ pallet_t defaultPallet = {
 	.hitRay = sf::Color(255, 255, 255, 30),
 };
 
-void RenderWindow()
+void RenderWindow(sf::Time deltaTime)
 {
 	rWindow->clear(defaultPallet.background);
+
+	EditorTick(deltaTime);
 
 	for (auto& p: sceneRef->particles) {
 		DrawParticleHits(*p, sceneRef->boundaries);

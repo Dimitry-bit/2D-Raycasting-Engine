@@ -28,5 +28,4 @@ std::vector<sf::Vector2f> ParticleCastAllDirections(const particle_t& particle,
                                                     const std::list<boundary_t*>& boundaries);
 
 void DrawParticleHits(const particle_t& particle, const std::list<boundary_t*>& boundaries);
-
 void DrawParticle(const particle_t& particle);

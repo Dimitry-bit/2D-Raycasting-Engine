@@ -1,7 +1,8 @@
 #pragma once
 
-#include "imgui.h"
 #include "SFML/Window.hpp"
+
+#include "imgui.h"
 
 typedef void (* windowcallback_t)(struct editorwindow_t& window);
 
@@ -14,19 +15,12 @@ struct editorwindow_t {
 
 void EditorInit();
 void EditorShutdown();
-void EditorTick();
+void EditorTick(sf::Time deltaTime);
+void EditorEvent(sf::Event event);
 
 editorwindow_t* EditorCreate(const char* name,
                              windowcallback_t callback,
                              sf::Keyboard::Key shortcutKey = sf::Keyboard::Unknown,
                              bool defaultState = true);
-void EditorCreateAll();
 
-void DrawRenderSettings(editorwindow_t& window);
-void DrawIOSettings(editorwindow_t& window);
-void DrawMenuBar(editorwindow_t& window);
-void DrawAboutMenu(editorwindow_t& window);
-void DrawDeltaTime();
-
-void EditorSwitchTheme(bool darkTheme);
 void ImGuiSFMLColorEdit4(const char* label, sf::Color& sfmlColor, ImGuiColorEditFlags colorFlags = 0);

@@ -1,5 +1,6 @@
 #include <vector>
 #include "imgui.h"
+#include "imgui-SFML.h"
 
 #include "editor.h"
 #include "editor_inspectors.h"
@@ -8,12 +9,28 @@
 static std::vector<editorwindow_t*> editors;
 static bool isDarkTheme = false;
 
+void EditorCreateAll();
+
+void DrawRenderSettings(editorwindow_t& window);
+void DrawIOSettings(editorwindow_t& window);
+void DrawMenuBar(editorwindow_t& window);
+void DrawAboutMenu(editorwindow_t& window);
+void DrawDeltaTime();
+
+void EditorSwitchTheme(bool darkTheme);
+
 void EditorInit()
 {
+	ImGui::SFML::Init(*rWindow);
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	EditorCreateAll();
 	EditorSwitchTheme(isDarkTheme);
+}
+
+void EditorEvent(sf::Event event)
+{
+	ImGui::SFML::ProcessEvent(*rWindow, event);
 }
 
 editorwindow_t* EditorCreate(const char* name,
@@ -50,8 +67,9 @@ void EditorCreateAll()
 //	EditorCreate("About Menu", DrawAboutMenu);
 }
 
-void EditorTick()
+void EditorTick(sf::Time deltaTime)
 {
+	ImGui::SFML::Update(*rWindow, deltaTime);
 	for (auto& editor: editors) {
 		if (editor->isOpen && editor->callback) {
 			editor->callback(*editor);
@@ -139,6 +157,7 @@ void EditorShutdown()
 	}
 
 	editors.clear();
+	ImGui::SFML::Shutdown();
 }
 
 void ImGuiSFMLColorEdit4(const char* label, sf::Color& sfmlColor, ImGuiColorEditFlags colorFlags)
