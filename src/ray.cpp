@@ -6,9 +6,11 @@
 #include "boundary.h"
 
 const float rayDrawLength = 20.0f;
+static int rayCount = 0;
 
 ray_t CreateRay(float x1, float y1, float x2, float y2)
 {
+	rayCount++;
 	sf::Vector2f dir(x2, y2);
 	Vector2fNormalize(dir);
 
@@ -20,6 +22,7 @@ ray_t CreateRay(float x1, float y1, float x2, float y2)
 
 ray_t CreateRay(const sf::Vector2f& origin, sf::Vector2f direction)
 {
+	rayCount++;
 	Vector2fNormalize(direction);
 	return ray_t{
 		origin,
@@ -29,6 +32,7 @@ ray_t CreateRay(const sf::Vector2f& origin, sf::Vector2f direction)
 
 ray_t CreateRay(float x1, float y1, float angleInDegree)
 {
+	rayCount++;
 	sf::Vector2f dir = Vector2fFromAngle(1.0f, angleInDegree);
 	return ray_t{
 		{x1, y1},
@@ -38,6 +42,7 @@ ray_t CreateRay(float x1, float y1, float angleInDegree)
 
 ray_t CreateRay(const sf::Vector2f& origin, float angleInDegree)
 {
+	rayCount++;
 	sf::Vector2f dir = Vector2fFromAngle(1.0f, angleInDegree);
 	return ray_t{
 		origin,
@@ -47,6 +52,7 @@ ray_t CreateRay(const sf::Vector2f& origin, float angleInDegree)
 
 ray_t* CreateRayAlloc(float x1, float y1, float x2, float y2)
 {
+	rayCount++;
 	ray_t* ray = new ray_t;
 
 	ray->origin.x = x1;
@@ -61,6 +67,7 @@ ray_t* CreateRayAlloc(float x1, float y1, float x2, float y2)
 
 ray_t* CreateRayAlloc(float x1, float y1, float angleInDegree)
 {
+	rayCount++;
 	ray_t* ray = new ray_t;
 
 	ray->origin.x = x1;
@@ -72,6 +79,7 @@ ray_t* CreateRayAlloc(float x1, float y1, float angleInDegree)
 
 ray_t* CreateRayAlloc(const sf::Vector2f& origin, sf::Vector2f direction)
 {
+	rayCount++;
 	ray_t* ray = new ray_t;
 
 	ray->origin = origin;
@@ -83,6 +91,7 @@ ray_t* CreateRayAlloc(const sf::Vector2f& origin, sf::Vector2f direction)
 
 ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree)
 {
+	rayCount++;
 	ray_t* ray = new ray_t;
 
 	ray->origin = origin;
@@ -93,6 +102,7 @@ ray_t* CreateRayAlloc(const sf::Vector2f& origin, float angleInDegree)
 
 void RayDealloc(ray_t* ray)
 {
+	rayCount--;
 	delete ray;
 }
 
@@ -145,4 +155,18 @@ void DrawRay(const ray_t& ray, const sf::Color& color)
 	state.blendMode = sf::BlendAlpha;
 
 	rWindow->draw(line, 2, sf::Lines, state);
+}
+
+int GetRayCount()
+{
+	return rayCount;
+}
+
+void UpdateRayCount(int n)
+{
+	rayCount += n;
+
+	if (rayCount < 0) {
+		rayCount = 0;
+	}
 }

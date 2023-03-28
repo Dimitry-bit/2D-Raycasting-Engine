@@ -8,6 +8,7 @@
 
 static std::vector<editorwindow_t*> editors;
 static bool isDarkTheme = false;
+static sf::Time deltaTimeSave;
 
 void EditorCreateAll();
 
@@ -15,7 +16,7 @@ void DrawRenderSettings(editorwindow_t& window);
 void DrawIOSettings(editorwindow_t& window);
 void DrawMenuBar(editorwindow_t& window);
 void DrawAboutMenu(editorwindow_t& window);
-void DrawDeltaTime();
+void DrawUI();
 
 void EditorSwitchTheme(bool darkTheme);
 
@@ -75,6 +76,8 @@ void EditorTick(sf::Time deltaTime)
 			editor->callback(*editor);
 		}
 	}
+	deltaTimeSave = deltaTime;
+	DrawUI();
 }
 
 void DrawMenuBar(editorwindow_t& window)
@@ -147,6 +150,45 @@ void EditorSwitchTheme(bool darkTheme)
 	} else {
 		ImGui::StyleColorsLight();
 	}
+}
+
+void DrawUI()
+{
+	float xOffset = 5.0f;
+	float yOffset = 5.0f;
+	float yWindowOffset = 15.0f;
+
+	sf::Font font;
+	static bool loaded = false;
+	if (!font.loadFromFile("../resources/font/JetBrainsMono-Regular.ttf")) {
+		loaded = true;
+		return;
+	}
+
+	float yPos = rWindow->getSize().y - yWindowOffset;
+
+	sf::Text deltaText;
+	deltaText.setFont(font);
+	deltaText.setFillColor(sf::Color::White);
+	deltaText.setScale(0.5f, 0.5f);
+	deltaText.setStyle(sf::Text::Bold);
+	deltaText.setString("Framerate: " + std::to_string(deltaTimeSave.asSeconds()) + "s");
+	deltaText.setOrigin(0, deltaText.getGlobalBounds().height);
+	deltaText.setPosition(xOffset, yPos);
+
+	yPos -= deltaText.getGlobalBounds().height + yOffset;
+
+	sf::Text rayCountText;
+	rayCountText.setFont(font);
+	rayCountText.setFillColor(sf::Color::White);
+	rayCountText.setScale(0.5f, 0.5f);
+	rayCountText.setStyle(sf::Text::Bold);
+	rayCountText.setString("Rays: " + std::to_string(GetRayCount()));
+	rayCountText.setOrigin(0, rayCountText.getGlobalBounds().height);
+	rayCountText.setPosition(xOffset, yPos);
+
+	rWindow->draw(deltaText);
+	rWindow->draw(rayCountText);
 }
 
 void EditorShutdown()
