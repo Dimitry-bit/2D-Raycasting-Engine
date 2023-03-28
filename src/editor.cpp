@@ -115,8 +115,8 @@ void DrawRenderSettings(editorwindow_t& window)
 	ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity);
 
 	ImGui::SeparatorText("Color Options");
-	ImGuiSFMLColorEdit4("BG Color", defaultPallet.background, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Point Color", defaultPallet.point, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("BG Color", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Point Color", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
 
 	ImGui::End();
 }

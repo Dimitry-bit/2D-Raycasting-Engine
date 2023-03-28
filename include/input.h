@@ -4,6 +4,8 @@
 
 #include "scene_manager.h"
 
+extern bool isFollowCursor;
+
 void GameLoop();
 void InputEvent(sf::Event event);
 

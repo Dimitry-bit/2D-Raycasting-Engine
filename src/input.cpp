@@ -10,6 +10,8 @@ enum keystatus_t {
 	KEY_RELEASED,
 };
 
+bool isFollowCursor = false;
+
 static std::map<sf::Keyboard::Key, keystatus_t> keyMap;
 static std::map<sf::Mouse::Button, keystatus_t> mouseKeyMap;
 
@@ -62,7 +64,7 @@ void GameLoop()
 	}
 
 	if (isKeyPressed(sf::Keyboard::F)) {
-		isFollowMouse = !isFollowMouse;
+		isFollowCursor = !isFollowCursor;
 	}
 
 	if (isKeyPressed(sf::Keyboard::Delete)) {
@@ -78,7 +80,7 @@ void GameLoop()
 			}
 				break;
 			default: break;
-		};
+		}
 	}
 
 	if (isMousePressed(sf::Mouse::Left) && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)
@@ -94,7 +96,7 @@ void GameLoop()
 		b->pB = sf::Vector2f(sf::Mouse::getPosition(*rWindow));
 	}
 
-	if (isFollowMouse && selectedEntry.type == PARTICLE && selectedEntry.data) {
+	if (isFollowCursor && selectedEntry.type == PARTICLE && selectedEntry.data) {
 		if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered()) {
 			particle_t* p = (particle_t*) selectedEntry.data;
 			ParticleSetPosition(*p, sf::Vector2f(sf::Mouse::getPosition(*rWindow)));
@@ -115,7 +117,7 @@ void PlaceParticle()
 {
 	sf::Vector2f pos(sf::Mouse::getPosition(*rWindow));
 	particle_t* p = CreateParticleAlloc(pos, 10.0f, 10);
-	p->rayColor = defaultPallet.ray;
+	p->rayColor = defaultColPallet.ray;
 	SceneTrackParticle(p);
 	selectedEntry.type = PARTICLE;
 	selectedEntry.data = p;

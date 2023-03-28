@@ -7,7 +7,7 @@ selectable_t selectedEntry;
 
 void SceneLoad()
 {
-	particle_t* p = CreateParticleAlloc(100.0f, 100.0f, 10.0f, particleStepAngle);
+	particle_t* p = CreateParticleAlloc(100.0f, 100.0f, 10.0f, 10);
 	SceneTrackParticle(p);
 	SceneTrackBoundary(CreateBoundaryAlloc(300.0f, 100.0f, 300.0f, 300.0f));
 	selectedEntry.type = BOUNDARY;

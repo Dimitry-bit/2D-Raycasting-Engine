@@ -16,8 +16,10 @@ particle_t CreateParticle(const sf::Vector2f& origin, float radius, int stepAngl
 	particle.originCircle.setRadius(radius);
 	particle.originCircle.setOrigin(radius, radius);
 	particle.originCircle.setPosition(origin);
-	particle.originCircle.setFillColor(defaultPallet.particle);
+	particle.originCircle.setFillColor(defaultColPallet.particle);
 	particle.stepAngle = stepAngleInDegree;
+	particle.rayColor = defaultColPallet.ray;
+	particle.hitRayColor = defaultColPallet.hitRay;
 
 	for (int i = 0; i <= 360; i += stepAngleInDegree) {
 		ray_t r = CreateRay(origin, (float) i);
@@ -38,8 +40,10 @@ particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int st
 	particle->originCircle.setRadius(radius);
 	particle->originCircle.setOrigin(radius, radius);
 	particle->originCircle.setPosition(origin);
-	particle->originCircle.setFillColor(defaultPallet.particle);
+	particle->originCircle.setFillColor(defaultColPallet.particle);
 	particle->stepAngle = stepAngleInDegree;
+	particle->rayColor = defaultColPallet.ray;
+	particle->hitRayColor = defaultColPallet.hitRay;
 
 	for (int i = 0; i <= 360; i += stepAngleInDegree) {
 		ray_t r = CreateRay(origin, (float) i);
@@ -134,7 +138,7 @@ void DrawParticleHits(const particle_t& particle, const std::list<boundary_t*>& 
 
 		if (closestPoint != ray.origin) {
 			if (isDrawHitPoint) {
-				DrawPoint(closestPoint, defaultPallet.point);
+				DrawPoint(closestPoint, defaultColPallet.point);
 			}
 			if (isDrawHitRay) {
 				DrawLine(ray.origin, closestPoint, particle.hitRayColor);

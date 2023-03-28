@@ -10,22 +10,19 @@
 bool isDrawHitPoint = false;
 bool isDrawHitRay = true;
 bool isDrawToInfinity = true;
-bool isFollowMouse = false;
 
-int particleStepAngle = 1;
-
-pallet_t defaultPallet = {
+pallet_t defaultColPallet = {
 	.background = sf::Color::Black,
 	.boundary = sf::Color::White,
 	.point = sf::Color::White,
 	.particle = sf::Color::White,
-	.ray = sf::Color(255, 255, 255, 30),
-	.hitRay = sf::Color(255, 255, 255, 30),
+	.ray = sf::Color(255, 255, 255, 70),
+	.hitRay = sf::Color(255, 255, 255, 70),
 };
 
 void RenderWindow(sf::Time deltaTime)
 {
-	rWindow->clear(defaultPallet.background);
+	rWindow->clear(defaultColPallet.background);
 
 	EditorTick(deltaTime);
 

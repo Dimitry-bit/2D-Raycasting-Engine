@@ -1,5 +1,6 @@
 #include "editor_inspectors.h"
 #include "scene_manager.h"
+#include "input.h"
 
 void DrawInspector(editorwindow_t& window)
 {
@@ -107,7 +108,7 @@ void DrawSceneHierarchy(editorwindow_t& window)
 			if (ImGui::Selectable(s.c_str(), isSelected)) {
 				selectedEntry.data = b;
 				selectedEntry.type = BOUNDARY;
-				isFollowMouse = false;
+				isFollowCursor = false;
 			}
 		}
 
@@ -123,7 +124,7 @@ void DrawSceneHierarchy(editorwindow_t& window)
 			if (ImGui::Selectable(s.c_str(), isSelected)) {
 				selectedEntry.data = p;
 				selectedEntry.type = PARTICLE;
-				isFollowMouse = false;
+				isFollowCursor = false;
 			}
 		}
 	}

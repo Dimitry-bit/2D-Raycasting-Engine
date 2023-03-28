@@ -17,11 +17,8 @@ extern sf::RenderWindow* rWindow;
 extern bool isDrawHitPoint;
 extern bool isDrawHitRay;
 extern bool isDrawToInfinity;
-extern bool isFollowMouse;
 
-extern int particleStepAngle;
-
-extern pallet_t defaultPallet;
+extern pallet_t defaultColPallet;
 
 void RenderWindow(sf::Time deltaTime);
 void DrawPoint(const sf::Vector2f& point, const sf::Color& color = sf::Color::White);
