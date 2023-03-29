@@ -1,5 +1,5 @@
 #include "editor_inspectors.h"
-#include "scene_manager.h"
+#include "selection_system.h"
 #include "input.h"
 
 void DrawInspector(editorwindow_t& window)
@@ -9,6 +9,7 @@ void DrawInspector(editorwindow_t& window)
 		return;
 	}
 
+	selectable_t selectedEntry = SelectionGetSelectedEntry();
 	switch (selectedEntry.type) {
 		case PARTICLE: DrawParticleInspector(*(particle_t*) selectedEntry.data);
 			break;
@@ -98,6 +99,8 @@ void DrawSceneHierarchy(editorwindow_t& window)
 
 	if (ImGui::BeginChild("Scrolling", ImVec2(400.0f, 300.0f), true, ImGuiWindowFlags_AlwaysVerticalScrollbar)) {
 		size_t entryCount = 0;
+		selectable_t selectedEntry = SelectionGetSelectedEntry();
+
 		for (auto& b: sceneRef->boundaries) {
 			std::string s("Boundary " + std::to_string(entryCount++));
 			bool isSelected = false;
@@ -107,8 +110,7 @@ void DrawSceneHierarchy(editorwindow_t& window)
 			}
 
 			if (ImGui::Selectable(s.c_str(), isSelected)) {
-				selectedEntry.data = b;
-				selectedEntry.type = BOUNDARY;
+				SelectionSelectEntry(BOUNDARY, b);
 				isFollowCursor = false;
 			}
 		}
@@ -123,8 +125,7 @@ void DrawSceneHierarchy(editorwindow_t& window)
 			}
 
 			if (ImGui::Selectable(s.c_str(), isSelected)) {
-				selectedEntry.data = p;
-				selectedEntry.type = PARTICLE;
+				SelectionSelectEntry(PARTICLE, p);
 				isFollowCursor = false;
 			}
 		}

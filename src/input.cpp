@@ -3,6 +3,7 @@
 
 #include "input.h"
 #include "scene_manager.h"
+#include "selection_system.h"
 
 enum keystatus_t {
 	KEY_OFF = 0,
@@ -17,7 +18,7 @@ static std::map<sf::Mouse::Button, keystatus_t> mouseKeyMap;
 
 static boundary_t* b = nullptr;
 static int vertexPlacementCount = 0;
-static selections_t createObjectOfType = BOUNDARY;
+static selection_t createObjectOfType = BOUNDARY;
 
 void ClearKeyStatus();
 void SetKeyStatus(sf::Keyboard::Key key, keystatus_t status);
@@ -55,6 +56,8 @@ void InputEvent(sf::Event event)
 
 void GameLoop()
 {
+	selectable_t selectedEntry = SelectionGetSelectedEntry();
+
 	if (isKeyPressed(sf::Keyboard::Num1)) {
 		createObjectOfType = BOUNDARY;
 		printf("[INFO][Input]: Instantiate type is set to boundary.\n");
@@ -74,24 +77,32 @@ void GameLoop()
 		switch (selectedEntry.type) {
 			case PARTICLE: {
 				DestroyParticle((particle_t**) &selectedEntry.data);
-				selectedEntry.type = NONE;
 			}
 				break;
 			case BOUNDARY: {
 				DestroyBoundary((boundary_t**) &selectedEntry.data);
-				selectedEntry.type = NONE;
 			}
 				break;
 			default: break;
 		}
+
+		SelectionDeselectEntry();
 	}
 
-	if (isMousePressed(sf::Mouse::Left) && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)
-		&& !ImGui::IsAnyItemHovered()) {
-		if (createObjectOfType == BOUNDARY) {
-			PlaceBoundary();
-		} else if (createObjectOfType == PARTICLE) {
-			PlaceParticle();
+	bool isCollidingImGui =
+		!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered() && !ImGui::IsAnyItemActive();
+
+	if (isMousePressed(sf::Mouse::Left) && !isCollidingImGui) {
+		switch (createObjectOfType) {
+			case PARTICLE: {
+				PlaceParticle();
+			}
+				break;
+			case BOUNDARY: {
+				PlaceBoundary();
+			}
+				break;
+			default: break;
 		}
 	}
 
@@ -122,8 +133,7 @@ void PlaceParticle()
 	particle_t* p = CreateParticleAlloc(pos, 10.0f, 10);
 	p->rayColor = defaultColPallet.ray;
 	SceneTrackParticle(p);
-	selectedEntry.type = PARTICLE;
-	selectedEntry.data = p;
+	SelectionSelectEntry(PARTICLE, p);
 }
 
 void PlaceBoundary()
@@ -138,8 +148,7 @@ void PlaceBoundary()
 		b->pA = sf::Vector2f(sf::Mouse::getPosition(*rWindow));
 		vertexPlacementCount++;
 
-		selectedEntry.type = BOUNDARY;
-		selectedEntry.data = b;
+		SelectionSelectEntry(BOUNDARY, b);
 	} else {
 		b->pB = sf::Vector2f(sf::Mouse::getPosition(*rWindow));
 		vertexPlacementCount = 0;

@@ -3,15 +3,11 @@
 static scene_t scene;
 scene_t* const sceneRef = &scene;
 
-selectable_t selectedEntry;
-
 void SceneLoad()
 {
 	particle_t* p = CreateParticleAlloc(100.0f, 100.0f, 10.0f, 10);
 	SceneTrackParticle(p);
 	SceneTrackBoundary(CreateBoundaryAlloc(300.0f, 100.0f, 300.0f, 300.0f));
-	selectedEntry.type = BOUNDARY;
-	selectedEntry.data = scene.boundaries.front();
 	printf("[INFO][Scene]: Scene loaded successfully.\n");
 }
 
