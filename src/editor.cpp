@@ -151,16 +151,6 @@ void DrawRenderSettings(editorwindow_t& window)
 	ImGui::End();
 }
 
-void DrawIOSettings(editorwindow_t& window)
-{
-	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
-		ImGui::End();
-		return;
-	}
-
-	ImGui::End();
-}
-
 void DrawAboutMenu(editorwindow_t& window)
 {
 	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
