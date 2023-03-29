@@ -161,8 +161,8 @@ void DrawRenderSettings(editorwindow_t& window)
 	}
 
 	ImGui::SeparatorText("Color Options");
-	ImGuiSFMLColorEdit4("BG", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Point", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("BG", defaultColorPalette.background, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Point", defaultColorPalette.point, ImGuiColorEditFlags_AlphaPreview);
 
 	ImGui::End();
 }

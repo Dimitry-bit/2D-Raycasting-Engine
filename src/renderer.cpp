@@ -15,7 +15,7 @@ bool isDrawToInfinity = true;
 
 void RenderWindow(sf::Time deltaTime)
 {
-	rWindow->clear(defaultColPallet.background);
+	rWindow->clear(defaultColorPalette.background);
 
 	EditorTick(deltaTime);
 

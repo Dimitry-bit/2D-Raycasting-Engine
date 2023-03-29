@@ -60,13 +60,13 @@ void SelectionHighlightEntry()
 		case PARTICLE: {
 			particle_t* p = (particle_t*) selectedEntry.data;
 			cachedEntryColor = p->originCircle.getFillColor();
-			p->originCircle.setFillColor(defaultColPallet.selection);
+			p->originCircle.setFillColor(defaultColorPalette.selection);
 		}
 			break;
 		case BOUNDARY: {
 			boundary_t* b = (boundary_t*) selectedEntry.data;
 			cachedEntryColor = b->color;
-			b->color = defaultColPallet.selection;
+			b->color = defaultColorPalette.selection;
 		}
 			break;
 		default: break;
@@ -78,7 +78,7 @@ void SelectionDeHighlightEntry()
 	switch (selectedEntry.type) {
 		case PARTICLE: {
 			particle_t* p = (particle_t*) selectedEntry.data;
-			if (p->originCircle.getFillColor() != defaultColPallet.selection) {
+			if (p->originCircle.getFillColor() != defaultColorPalette.selection) {
 				return;
 			}
 
@@ -87,7 +87,7 @@ void SelectionDeHighlightEntry()
 			break;
 		case BOUNDARY: {
 			boundary_t* b = (boundary_t*) selectedEntry.data;
-			if (b->color != defaultColPallet.selection) {
+			if (b->color != defaultColorPalette.selection) {
 				return;
 			}
 

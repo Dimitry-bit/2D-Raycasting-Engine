@@ -12,4 +12,4 @@ struct pallet_t {
 	sf::Color selection;
 };
 
-extern pallet_t defaultColPallet;
+extern pallet_t defaultColorPalette;

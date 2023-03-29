@@ -133,7 +133,7 @@ void PlaceParticle()
 {
 	sf::Vector2f pos(sf::Mouse::getPosition(*rWindow));
 	particle_t* p = CreateParticleAlloc(pos, 10.0f, 10);
-	p->rayColor = defaultColPallet.ray;
+	p->rayColor = defaultColorPalette.ray;
 	SceneTrackParticle(p);
 	SelectionSelectEntry(PARTICLE, p);
 }

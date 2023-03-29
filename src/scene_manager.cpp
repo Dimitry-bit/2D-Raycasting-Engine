@@ -20,7 +20,7 @@ bool SceneLoadFromFile(const char* filePath)
 	}
 	printf("[INFO][Scene]: %s opened for reading.\n", filePath);
 
-	fread((void*) &defaultColPallet, sizeof(defaultColPallet), 1, fp);
+	fread((void*) &defaultColorPalette, sizeof(defaultColorPalette), 1, fp);
 
 	size_t size;
 	fread((void*) &size, sizeof(size), 1, fp);
@@ -65,7 +65,7 @@ bool SceneSaveToFile(const char* filePath)
 	}
 	printf("[INFO][Scene]: %s opened for writing.\n", s.c_str());
 
-	fwrite((const void*) &defaultColPallet, sizeof(defaultColPallet), 1, fp);
+	fwrite((const void*) &defaultColorPalette, sizeof(defaultColorPalette), 1, fp);
 
 	size_t size = scene.boundaries.size();
 	fwrite((const void*) &size, sizeof(size), 1, fp);

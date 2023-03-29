@@ -1,6 +1,6 @@
 #include "engine_color.h"
 
-pallet_t defaultColPallet = {
+pallet_t defaultColorPalette = {
 	.background = sf::Color::Black,
 	.boundary = sf::Color::White,
 	.point = sf::Color::White,

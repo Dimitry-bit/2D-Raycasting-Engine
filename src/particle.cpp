@@ -19,10 +19,10 @@ particle_t CreateParticle(const sf::Vector2f& origin, float radius, int nRays)
 	particle.originCircle.setRadius(radius);
 	particle.originCircle.setOrigin(radius, radius);
 	particle.originCircle.setPosition(origin);
-	particle.originCircle.setFillColor(defaultColPallet.particle);
+	particle.originCircle.setFillColor(defaultColorPalette.particle);
 	particle.nRays = nRays;
-	particle.rayColor = defaultColPallet.ray;
-	particle.hitRayColor = defaultColPallet.hitRay;
+	particle.rayColor = defaultColorPalette.ray;
+	particle.hitRayColor = defaultColorPalette.hitRay;
 	PopulateRayVector(particle.rays, origin, nRays);
 	printf("[INFO][Particle]: Particle created at position (%.2f, %.2f).\n", origin.x, origin.y);
 
@@ -40,10 +40,10 @@ particle_t* CreateParticleAlloc(const sf::Vector2f& origin, float radius, int nR
 	particle->originCircle.setRadius(radius);
 	particle->originCircle.setOrigin(radius, radius);
 	particle->originCircle.setPosition(origin);
-	particle->originCircle.setFillColor(defaultColPallet.particle);
+	particle->originCircle.setFillColor(defaultColorPalette.particle);
 	particle->nRays = nRays;
-	particle->rayColor = defaultColPallet.ray;
-	particle->hitRayColor = defaultColPallet.hitRay;
+	particle->rayColor = defaultColorPalette.ray;
+	particle->hitRayColor = defaultColorPalette.hitRay;
 	PopulateRayVector(particle->rays, origin, nRays);
 	printf("[INFO][Particle]: (Alloc) Particle created at position (%.2f, %.2f).\n", origin.x, origin.y);
 
@@ -152,7 +152,7 @@ void DrawParticleHits(const particle_t& particle, const std::list<boundary_t*>& 
 
 		if (closestPoint != ray.origin) {
 			if (isDrawHitPoint) {
-				DrawPoint(closestPoint, defaultColPallet.point);
+				DrawPoint(closestPoint, defaultColorPalette.point);
 			}
 			if (isDrawHitRay) {
 				DrawLine(ray.origin, closestPoint, particle.hitRayColor);
