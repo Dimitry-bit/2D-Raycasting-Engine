@@ -18,6 +18,7 @@ pallet_t defaultColPallet = {
 	.particle = sf::Color::White,
 	.ray = sf::Color(255, 255, 255, 70),
 	.hitRay = sf::Color(255, 255, 255, 70),
+	.selection = sf::Color::Cyan,
 };
 
 void RenderWindow(sf::Time deltaTime)

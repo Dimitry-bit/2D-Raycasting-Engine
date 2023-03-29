@@ -10,6 +10,7 @@ struct pallet_t {
 	sf::Color particle;
 	sf::Color ray;
 	sf::Color hitRay;
+	sf::Color selection;
 };
 
 extern sf::RenderWindow* rWindow;
