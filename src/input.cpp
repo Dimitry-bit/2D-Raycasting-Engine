@@ -4,6 +4,7 @@
 #include "input.h"
 #include "scene_manager.h"
 #include "selection_system.h"
+#include "engine_color.h"
 
 enum keystatus_t {
 	KEY_OFF = 0,

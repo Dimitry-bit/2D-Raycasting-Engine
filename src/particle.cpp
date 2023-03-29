@@ -4,6 +4,7 @@
 #include "vector2_math.h"
 #include "particle.h"
 #include "renderer.h"
+#include "engine_color.h"
 
 void PopulateRayVector(std::vector<ray_t>& vect, const sf::Vector2f& origin, int nRays);
 

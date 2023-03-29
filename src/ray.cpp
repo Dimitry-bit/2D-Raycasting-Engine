@@ -4,6 +4,7 @@
 #include "ray.h"
 #include "renderer.h"
 #include "boundary.h"
+#include "engine_color.h"
 
 const float rayDrawLength = 20.0f;
 static int rayCount = 0;

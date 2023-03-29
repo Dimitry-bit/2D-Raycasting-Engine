@@ -6,6 +6,7 @@
 #include "particle.h"
 #include "boundary.h"
 #include "renderer.h"
+#include "engine_color.h"
 
 static selectable_t selectedEntry;
 static sf::Color cachedEntryColor;

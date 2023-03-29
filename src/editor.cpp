@@ -5,6 +5,7 @@
 #include "editor.h"
 #include "editor_inspectors.h"
 #include "renderer.h"
+#include "engine_color.h"
 
 static std::vector<editorwindow_t*> editors;
 static bool isDarkTheme = false;

@@ -1,4 +1,5 @@
 #include "boundary.h"
+#include "engine_color.h"
 #include "renderer.h"
 
 boundary_t CreateBoundary(float x1, float y1, float x2, float y2)
