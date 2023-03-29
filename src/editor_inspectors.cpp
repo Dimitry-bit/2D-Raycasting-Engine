@@ -1,6 +1,7 @@
 #include "editor_inspectors.h"
 #include "selection_system.h"
 #include "engine_primitives.h"
+#include "engine_color.h"
 #include "input.h"
 
 void DrawInspector(editorwindow_t& window)
@@ -137,6 +138,31 @@ void DrawSceneHierarchy(editorwindow_t& window)
 	float scrollY = ImGui::GetScrollY();
 	float scrollMaxY = ImGui::GetScrollMaxY();
 	ImGui::Text("%.0f/%.0f", scrollY, scrollMaxY);
+
+	ImGui::End();
+}
+
+void DrawRenderSettings(editorwindow_t& window)
+{
+	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
+
+	ImGui::SeparatorText("Draw Options");
+	if (ImGui::Checkbox("Draw Hit Ray", &isDrawHitRay)) {
+		printf("[INFO][Editor]: Draw Hit Ray %s.\n", isDrawHitRay ? "enabled" : "disabled");
+	}
+	if (ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint)) {
+		printf("[INFO][Editor]: Draw Hit Point %s.\n", isDrawHitPoint ? "enabled" : "disabled");
+	}
+	if (ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity)) {
+		printf("[INFO][Editor]: Draw Ray To Infinity %s.\n", isDrawToInfinity ? "enabled" : "disabled");
+	}
+
+	ImGui::SeparatorText("Color Options");
+	ImGuiSFMLColorEdit4("BG", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
+	ImGuiSFMLColorEdit4("Point", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
 
 	ImGui::End();
 }

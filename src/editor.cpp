@@ -5,28 +5,24 @@
 #include "editor.h"
 #include "editor_inspectors.h"
 #include "renderer.h"
-#include "engine_color.h"
-#include "utility.h"
 #include "scene_manager.h"
+#include "utility.h"
 #include "selection_system.h"
 
 static std::vector<editorwindow_t*> editors;
 static bool isDarkTheme = false;
-static sf::Time deltaTimeSave;
+static bool isDrawAboutMenu = false;
 
 void EditorCreateAll();
-
-void DrawRenderSettings(editorwindow_t& window);
-void DrawMenuBar(editorwindow_t& window);
-void DrawAboutMenu(editorwindow_t& window);
-void DrawUI();
-
+void DrawMenuBar();
+void DrawAboutMenu();
+void DrawUI(float deltaTime);
 void EditorSwitchTheme(bool darkTheme);
 
 void EditorInit()
 {
 	ImGui::SFML::Init(*rWindow);
-	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable | ImGuiConfigFlags_NavEnableKeyboard;
 
 	EditorCreateAll();
 	EditorSwitchTheme(isDarkTheme);
@@ -40,7 +36,6 @@ void EditorEvent(sf::Event event)
 
 editorwindow_t* EditorCreate(const char* name,
                              windowcallback_t callback,
-                             sf::Keyboard::Key shortcutKey,
                              bool defaultState)
 {
 	char* nameAlloc = (char*) malloc(strlen(name) + 1);
@@ -50,7 +45,6 @@ editorwindow_t* EditorCreate(const char* name,
 
 	window->name = nameAlloc;
 	window->isOpen = defaultState;
-	window->shortcutKey = shortcutKey;
 	window->callback = callback;
 
 	editors.push_back(window);
@@ -65,30 +59,47 @@ editorwindow_t* EditorCreate(const char* name,
 
 void EditorCreateAll()
 {
-	EditorCreate("Main Menu Bar", DrawMenuBar);
 	EditorCreate("Render Settings", DrawRenderSettings);
 	EditorCreate("Inspector", DrawInspector);
 	EditorCreate("Scene Hierarchy", DrawSceneHierarchy);
-//	EditorCreate("About Menu", DrawAboutMenu);
 }
 
 void EditorTick(sf::Time deltaTime)
 {
 	ImGui::SFML::Update(*rWindow, deltaTime);
+	DrawMenuBar();
+	DrawAboutMenu();
+	DrawUI(deltaTime.asSeconds());
 	for (auto& editor: editors) {
 		if (editor->isOpen && editor->callback) {
 			editor->callback(*editor);
 		}
 	}
-	deltaTimeSave = deltaTime;
-	DrawUI();
 }
 
-void DrawMenuBar(editorwindow_t& window)
+void DrawMenuBar()
 {
 	if (!ImGui::BeginMainMenuBar()) {
 		ImGui::EndMainMenuBar();
 		return;
+	}
+
+	if (ImGui::BeginMenu("File")) {
+		if (ImGui::MenuItem("Open...", "Ctrl+O")) {
+			std::string s(FileDialogOpenFile("Scene (*.scene)\0*.scene\0"));
+			if (!s.empty()) {
+				SelectionDeselectEntry();
+				SceneLoadFromFile(s.c_str());
+			}
+		}
+		if (ImGui::MenuItem("Save As...", "Ctrl+S")) {
+			std::string s(FileDialogSaveFile("Scene (*.scene)\0*.scene\0"));
+			if (!s.empty()) {
+				SelectionDeselectEntry();
+				SceneSaveToFile(s.c_str());
+			}
+		}
+		ImGui::EndMenu();
 	}
 
 	if (ImGui::BeginMenu("View")) {
@@ -103,64 +114,27 @@ void DrawMenuBar(editorwindow_t& window)
 		if (ImGui::Checkbox("Dark Theme", &isDarkTheme)) {
 			EditorSwitchTheme(isDarkTheme);
 		}
+		ImGui::MenuItem("About", nullptr, &isDrawAboutMenu);
 		ImGui::EndMenu();
 	}
 
 	ImGui::EndMainMenuBar();
 }
 
-void DrawRenderSettings(editorwindow_t& window)
+void DrawAboutMenu()
 {
-	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
+	if (!isDrawAboutMenu) {
+		return;
+	}
+
+	if (!ImGui::Begin("About", &isDrawAboutMenu, ImGuiWindowFlags_AlwaysAutoResize)) {
 		ImGui::End();
 		return;
 	}
 
-	ImGui::SeparatorText("Draw Options");
-	if (ImGui::Checkbox("Draw Hit Ray", &isDrawHitRay)) {
-		printf("[INFO][Editor]: Draw Hit Ray %s.\n", isDrawHitRay ? "enabled" : "disabled");
-	}
-	if (ImGui::Checkbox("Draw Hit Point", &isDrawHitPoint)) {
-		printf("[INFO][Editor]: Draw Hit Point %s.\n", isDrawHitPoint ? "enabled" : "disabled");
-	}
-	if (ImGui::Checkbox("Draw Ray To Infinity", &isDrawToInfinity)) {
-		printf("[INFO][Editor]: Draw Ray To Infinity %s.\n", isDrawToInfinity ? "enabled" : "disabled");
-	}
-
-	ImGui::SeparatorText("Color Options");
-	ImGuiSFMLColorEdit4("BG", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
-	ImGuiSFMLColorEdit4("Point", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
-
-	ImGui::SeparatorText("IO Options");
-	if (ImGui::Button("Save Scene")) {
-		std::string s(FileDialogSaveFile("Scene (*.scene)\0*.scene\0"));
-		if (!s.empty()) {
-			SelectionDeselectEntry();
-			SceneSaveToFile(s.c_str());
-		}
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Load Scene")) {
-		std::string s(FileDialogOpenFile("Scene (*.scene)\0*.scene\0"));
-		if (!s.empty()) {
-			SelectionDeselectEntry();
-			SceneLoadFromFile(s.c_str());
-		}
-	}
-
-	ImGui::End();
-}
-
-void DrawAboutMenu(editorwindow_t& window)
-{
-	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
-		ImGui::End();
-		return;
-	}
-
-	ImGui::Text("2D-RayCaster Engine");
+	ImGui::Text("Simple 2D Raycaster engine written in C++ using SFML");
 	ImGui::Separator();
-	ImGui::Text("By Tony Medhat");
+	ImGui::Text("Made By Tony Medhat");
 
 	ImGui::End();
 }
@@ -176,7 +150,7 @@ void EditorSwitchTheme(bool darkTheme)
 	printf("[INFO][Editor]: Dark theme %s\n", darkTheme ? "enabled" : "disabled");
 }
 
-void DrawUI()
+void DrawUI(float deltaTime)
 {
 	float xOffset = 5.0f;
 	float yOffset = 5.0f;
@@ -195,7 +169,7 @@ void DrawUI()
 	deltaText.setFillColor(sf::Color::White);
 	deltaText.setScale(0.5f, 0.5f);
 	deltaText.setStyle(sf::Text::Bold);
-	deltaText.setString("Framerate: " + std::to_string(deltaTimeSave.asSeconds()) + "s");
+	deltaText.setString("Framerate: " + std::to_string(deltaTime) + "s");
 	deltaText.setOrigin(0, deltaText.getGlobalBounds().height);
 	deltaText.setPosition(xOffset, yPos);
 
