@@ -90,9 +90,9 @@ void GameLoop()
 	}
 
 	bool isCollidingImGui =
-		!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered() && !ImGui::IsAnyItemActive();
+		ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered() || ImGui::IsAnyItemActive();
 
-	if (isMousePressed(sf::Mouse::Left) && !isCollidingImGui) {
+	if (isMousePressed(sf::Mouse::Right) && !isCollidingImGui) {
 		switch (createObjectOfType) {
 			case PARTICLE: {
 				PlaceParticle();
