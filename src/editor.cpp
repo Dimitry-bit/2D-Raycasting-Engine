@@ -6,6 +6,9 @@
 #include "editor_inspectors.h"
 #include "renderer.h"
 #include "engine_color.h"
+#include "utility.h"
+#include "scene_manager.h"
+#include "selection_system.h"
 
 static std::vector<editorwindow_t*> editors;
 static bool isDarkTheme = false;
@@ -14,7 +17,6 @@ static sf::Time deltaTimeSave;
 void EditorCreateAll();
 
 void DrawRenderSettings(editorwindow_t& window);
-void DrawIOSettings(editorwindow_t& window);
 void DrawMenuBar(editorwindow_t& window);
 void DrawAboutMenu(editorwindow_t& window);
 void DrawUI();
@@ -65,7 +67,6 @@ void EditorCreateAll()
 {
 	EditorCreate("Main Menu Bar", DrawMenuBar);
 	EditorCreate("Render Settings", DrawRenderSettings);
-	EditorCreate("IO Settings", DrawIOSettings);
 	EditorCreate("Inspector", DrawInspector);
 	EditorCreate("Scene Hierarchy", DrawSceneHierarchy);
 //	EditorCreate("About Menu", DrawAboutMenu);
@@ -130,12 +131,34 @@ void DrawRenderSettings(editorwindow_t& window)
 	ImGuiSFMLColorEdit4("BG", defaultColPallet.background, ImGuiColorEditFlags_AlphaPreview);
 	ImGuiSFMLColorEdit4("Point", defaultColPallet.point, ImGuiColorEditFlags_AlphaPreview);
 
+	ImGui::SeparatorText("IO Options");
+	if (ImGui::Button("Save Scene")) {
+		std::string s(FileDialogSaveFile("Scene (*.scene)\0*.scene\0"));
+		if (!s.empty()) {
+			SelectionDeselectEntry();
+			SceneSaveToFile(s.c_str());
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load Scene")) {
+		std::string s(FileDialogOpenFile("Scene (*.scene)\0*.scene\0"));
+		if (!s.empty()) {
+			SelectionDeselectEntry();
+			SceneLoadFromFile(s.c_str());
+		}
+	}
+
 	ImGui::End();
 }
 
 void DrawIOSettings(editorwindow_t& window)
 {
+	if (!ImGui::Begin(window.name, &window.isOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
 
+	ImGui::End();
 }
 
 void DrawAboutMenu(editorwindow_t& window)
