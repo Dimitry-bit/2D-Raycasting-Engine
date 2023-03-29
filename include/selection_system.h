@@ -1,16 +1,12 @@
 #pragma once
 
-enum selection_t {
-	NONE = 0,
-	PARTICLE,
-	BOUNDARY,
-};
+#include "engine_primitives.h"
 
 struct selectable_t {
-	selection_t type;
+	primitive_t type;
 	void* data;
 };
 
-void SelectionSelectEntry(selection_t type, void* entryData);
+void SelectionSelectEntry(primitive_t type, void* entryData);
 selectable_t SelectionDeselectEntry();
 const selectable_t& SelectionGetSelectedEntry();

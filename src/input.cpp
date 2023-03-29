@@ -4,6 +4,7 @@
 #include "input.h"
 #include "scene_manager.h"
 #include "selection_system.h"
+#include "engine_primitives.h"
 #include "engine_color.h"
 
 enum keystatus_t {
@@ -19,7 +20,7 @@ static std::map<sf::Mouse::Button, keystatus_t> mouseKeyMap;
 
 static boundary_t* b = nullptr;
 static int vertexPlacementCount = 0;
-static selection_t createObjectOfType = BOUNDARY;
+static primitive_t createObjectOfType = BOUNDARY;
 
 void ClearKeyStatus();
 void SetKeyStatus(sf::Keyboard::Key key, keystatus_t status);

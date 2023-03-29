@@ -1,5 +1,6 @@
 #include "editor_inspectors.h"
 #include "selection_system.h"
+#include "engine_primitives.h"
 #include "input.h"
 
 void DrawInspector(editorwindow_t& window)

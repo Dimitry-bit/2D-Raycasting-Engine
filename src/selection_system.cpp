@@ -5,12 +5,11 @@
 #include "selection_system.h"
 #include "particle.h"
 #include "boundary.h"
-#include "renderer.h"
 #include "engine_color.h"
 
 static selectable_t selectedEntry;
 static sf::Color cachedEntryColor;
-static std::map<selection_t, const char*> selectionNameMap = {
+static std::map<primitive_t, const char*> selectionNameMap = {
 	{NONE, "None"},
 	{PARTICLE, "Particle"},
 	{BOUNDARY, "Boundary"},
@@ -19,7 +18,7 @@ static std::map<selection_t, const char*> selectionNameMap = {
 static void SelectionHighlightEntry();
 static void SelectionDeHighlightEntry();
 
-void SelectionSelectEntry(selection_t type, void* entryData)
+void SelectionSelectEntry(primitive_t type, void* entryData)
 {
 	if (!entryData || (type == NONE)) {
 		printf("[ERROR][Selection]: Trying to select null data.\n");
