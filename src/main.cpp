@@ -17,7 +17,6 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(640, 480), "HelloSFML", sf::Style::Default, contextSettings);
 	rWindow = &window;
 
-	SceneLoad();
 	EditorInit();
 
 	sf::Clock deltaClock;

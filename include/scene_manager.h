@@ -13,7 +13,6 @@ struct scene_t {
 
 extern scene_t* const sceneRef;
 
-void SceneLoad();
 bool SceneLoadFromFile(const char* filePath);
 bool SceneSaveToFile(const char* filePath);
 void SceneUnload();

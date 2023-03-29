@@ -9,14 +9,6 @@ scene_t* const sceneRef = &scene;
 
 static const char* sceneFileExtension = ".scene";
 
-void SceneLoad()
-{
-	particle_t* p = CreateParticleAlloc(100.0f, 100.0f, 10.0f, 10);
-	SceneTrackParticle(p);
-	SceneTrackBoundary(CreateBoundaryAlloc(300.0f, 100.0f, 300.0f, 300.0f));
-	printf("[INFO][Scene]: Scene loaded successfully.\n");
-}
-
 bool SceneLoadFromFile(const char* filePath)
 {
 	SceneUnload();
@@ -54,6 +46,7 @@ bool SceneLoadFromFile(const char* filePath)
 		SceneTrackParticle(particle);
 	}
 
+	printf("[INFO][Scene]: Scene loaded successfully.\n");
 	fclose(fp);
 	return true;
 }

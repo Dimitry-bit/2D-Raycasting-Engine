@@ -85,14 +85,18 @@ void DrawMenuBar()
 	}
 
 	if (ImGui::BeginMenu("File")) {
-		if (ImGui::MenuItem("Open...", "Ctrl+O")) {
+		if (ImGui::MenuItem("New")) {
+			SelectionDeselectEntry();
+			SceneUnload();
+		}
+		if (ImGui::MenuItem("Open...")) {
 			std::string s(FileDialogOpenFile("Scene (*.scene)\0*.scene\0"));
 			if (!s.empty()) {
 				SelectionDeselectEntry();
 				SceneLoadFromFile(s.c_str());
 			}
 		}
-		if (ImGui::MenuItem("Save As...", "Ctrl+S")) {
+		if (ImGui::MenuItem("Save As...")) {
 			std::string s(FileDialogSaveFile("Scene (*.scene)\0*.scene\0"));
 			if (!s.empty()) {
 				SelectionDeselectEntry();
