@@ -12,10 +12,12 @@
 static std::vector<editorwindow_t*> editors;
 static bool isDarkTheme = false;
 static bool isDrawAboutMenu = false;
+static bool isDrawHelp = false;
 
 void EditorCreateAll();
 void DrawMenuBar();
 void DrawAboutMenu();
+void DrawHelp();
 void DrawUI(float deltaTime);
 void EditorSwitchTheme(bool darkTheme);
 
@@ -69,6 +71,7 @@ void EditorTick(sf::Time deltaTime)
 	ImGui::SFML::Update(*rWindow, deltaTime);
 	DrawMenuBar();
 	DrawAboutMenu();
+	DrawHelp();
 	DrawUI(deltaTime.asSeconds());
 	for (auto& editor: editors) {
 		if (editor->isOpen && editor->callback) {
@@ -118,11 +121,32 @@ void DrawMenuBar()
 		if (ImGui::Checkbox("Dark Theme", &isDarkTheme)) {
 			EditorSwitchTheme(isDarkTheme);
 		}
+		ImGui::MenuItem("Help", nullptr, &isDrawHelp);
 		ImGui::MenuItem("About", nullptr, &isDrawAboutMenu);
 		ImGui::EndMenu();
 	}
 
 	ImGui::EndMainMenuBar();
+}
+
+void DrawHelp()
+{
+	if (!isDrawHelp) {
+		return;
+	}
+
+	if (!ImGui::Begin("Help", &isDrawHelp, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
+
+	ImGui::Text("%s\n%s\n%s\n%s\n",
+	            "Num1 -> boundary",
+	            "Num2 -> particle",
+	            "Right-Click -> place",
+	            "F -> particle follow cursor");
+
+	ImGui::End();
 }
 
 void DrawAboutMenu()
