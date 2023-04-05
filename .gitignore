@@ -3,8 +3,10 @@
 !.idea/cmake.xml
 
 # External lib directory
-external/*
-!external/CMakeLists.txt
+vendor/*
+!vendor/CMakeLists.txt
+intermediate/
 
 # Build directory
-bin/
+bin/2D-RayCaster/[Dd]ebug*/
+bin/2D-RayCaster/[Rr]elease*/
