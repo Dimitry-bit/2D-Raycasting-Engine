@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.23)
 project(2D-RayCaster)
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_FLAGS "-static")
 
 # Setup build directory
 math(EXPR platform_bits "${CMAKE_SIZEOF_VOID_P} * 8")
